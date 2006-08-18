@@ -2,5 +2,23 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="deps/lib/antlr-2.7.6rc1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/asm.jar"/>
+	<classpathentry kind="lib" path="deps/lib/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="deps/lib/c3p0-0.9.0.jar"/>
+	<classpathentry kind="lib" path="deps/lib/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-collections-2.1.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="deps/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/ehcache-1.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="deps/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jdbc2_0-stdext.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jta.jar"/>
+	<classpathentry kind="lib" path="deps/lib/log4j-1.2.11.jar"/>
+	<classpathentry kind="lib" path="deps/lib/mysql-connector-java-3.1.12-bin.jar"/>
+	<classpathentry kind="lib" path="deps/lib/xerces-2.6.2.jar"/>
+	<classpathentry kind="lib" path="deps/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="deps/lib/ejb3-persistence.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
