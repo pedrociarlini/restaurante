@@ -1,10 +1,10 @@
-package pedrociarlini.marcao.actions;
+package pedrociarlini.marcao.caixa.view.actions;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import pedrociarlini.marcao.view.JanelaFechamentoDeCaixa;
+import pedrociarlini.marcao.caixa.view.JanelaFechamentoDeCaixa;
 
 public class AbrirFechamentoDeCaixa extends AbstractAction {
 

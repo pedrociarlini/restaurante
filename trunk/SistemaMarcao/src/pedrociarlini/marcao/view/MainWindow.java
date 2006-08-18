@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
-import pedrociarlini.marcao.actions.AbrirFechamentoDeCaixa;
+import pedrociarlini.marcao.caixa.view.JanelaFechamentoDeCaixa;
+import pedrociarlini.marcao.caixa.view.actions.AbrirFechamentoDeCaixa;
+
 import javax.swing.JDesktopPane;
 
 public class MainWindow extends JFrame {
