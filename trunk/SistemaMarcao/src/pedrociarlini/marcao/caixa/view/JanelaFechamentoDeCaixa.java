@@ -3,6 +3,7 @@ package pedrociarlini.marcao.caixa.view;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Date;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -11,9 +12,15 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import pedrociarlini.marcao.caixa.model.Venda;
+import pedrociarlini.util.hibernate.HibernateUtil;
+
 public class JanelaFechamentoDeCaixa extends JInternalFrame {
 
-	private static JanelaFechamentoDeCaixa instance;  //  @jve:decl-index=0:visual-constraint="643,7"
+	private static JanelaFechamentoDeCaixa instance;  //  @jve:decl-index=0:visual-constraint="666,37"
 	private JPanel contentPaneMain = null;
     private PanelVendasDoDia panelVendasDoDia = null;
     private JPanel panelCadastro = null;
@@ -38,7 +45,9 @@ public class JanelaFechamentoDeCaixa extends JInternalFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(488, 392);
+		this.setSize(353, 284);
+		this.setMaximizable(true);
+		this.setResizable(true);
 		this.setTitle("Fechamento de Caixa");
 		this.setContentPane(getContentPaneMain());
 	}
@@ -61,6 +70,7 @@ public class JanelaFechamentoDeCaixa extends JInternalFrame {
 	public static JanelaFechamentoDeCaixa getInstance() {
 		if (instance == null) {
 			instance = new JanelaFechamentoDeCaixa();
+			// instance.setSize(new java.awt.Dimension(44,22));
 		}
 		return instance;
 	}
@@ -184,6 +194,18 @@ public class JanelaFechamentoDeCaixa extends JInternalFrame {
         if (buttonSalvar == null) {
             buttonSalvar = new JButton();
             buttonSalvar.setText("Salvar");
+            buttonSalvar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    System.out.println("Salvar CAIXA");
+                    Session session = HibernateUtil.getSession();
+                    Transaction t = session.beginTransaction();
+                    Venda v = new Venda();
+                    v.setValorVenda(50.80);
+                    v.setDataVenda(new Date());
+                    session.save(v);
+                    t.commit();
+                }
+            });
         }
         return buttonSalvar;
     }
