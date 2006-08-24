@@ -20,7 +20,7 @@ import pedrociarlini.util.hibernate.HibernateUtil;
 
 public class JanelaFechamentoDeCaixa extends JInternalFrame {
 
-	private static JanelaFechamentoDeCaixa instance;  //  @jve:decl-index=0:visual-constraint="666,37"
+	private static JanelaFechamentoDeCaixa instance;  //  @jve:decl-index=0:visual-constraint="712,23"
 	private JPanel contentPaneMain = null;
     private PanelVendasDoDia panelVendasDoDia = null;
     private JPanel panelCadastro = null;

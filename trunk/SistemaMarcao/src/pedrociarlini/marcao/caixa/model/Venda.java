@@ -2,10 +2,14 @@ package pedrociarlini.marcao.caixa.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -32,7 +36,8 @@ public class Venda extends Entidade {
         this.dataVenda = dataVenda;
     }
 
-    @Transient
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn (name="TIPO_PAGAMENTO_ID")
     public TipoPagamento getTipoPagamento() {
         return tipoPagamento;
     }

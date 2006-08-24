@@ -16,8 +16,10 @@ public class MainWindow extends JFrame {
 	private JMenu mainMenu = null;
 	private JMenuItem menuOperacoes = null;
 	private JMenuBar mainMenuBar = null;
-	private AbrirFechamentoDeCaixa abrirFechamentoDeCaixa = null;  //  @jve:decl-index=0:visual-constraint="553,370"
+	private AbrirFechamentoDeCaixa abrirFechamentoDeCaixa = null;  //  @jve:decl-index=0:visual-constraint="628,58"
 	private JDesktopPane mainPane = null;
+	private JMenu menuCadastro = null;
+	private JMenuItem menuItemTipoDeVenda = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -32,7 +34,7 @@ public class MainWindow extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(680, 348);
+		this.setSize(559, 320);
 		this.setContentPane(getMainPane());
 		this.setJMenuBar(getMainMenuBar());
 		this.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -62,6 +64,7 @@ public class MainWindow extends JFrame {
 	private JMenuItem getMenuOperacoes() {
 		if (menuOperacoes == null) {
 			menuOperacoes = new JMenuItem();
+			menuOperacoes.setActionCommand("Fechar Caixa...");
 			menuOperacoes.setAction(getAbrirFechamentoDeCaixa());
 			menuOperacoes.setText("Fechar Caixa");
 			menuOperacoes.setMnemonic(java.awt.event.KeyEvent.VK_C);
@@ -78,6 +81,7 @@ public class MainWindow extends JFrame {
 		if (mainMenuBar == null) {
 			mainMenuBar = new JMenuBar();
 			mainMenuBar.add(getMainMenu());
+			mainMenuBar.add(getMenuCadastro());
 		}
 		return mainMenuBar;
 	}
@@ -105,6 +109,35 @@ public class MainWindow extends JFrame {
 			mainPane.add(JanelaFechamentoDeCaixa.getInstance());
 		}
 		return mainPane;
+	}
+
+	/**
+	 * This method initializes menuCadastro	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getMenuCadastro() {
+		if (menuCadastro == null) {
+			menuCadastro = new JMenu();
+			menuCadastro.setText("Cadastro");
+			menuCadastro.setMnemonic(java.awt.event.KeyEvent.VK_C);
+			menuCadastro.add(getMenuItemTipoDeVenda());
+		}
+		return menuCadastro;
+	}
+
+	/**
+	 * This method initializes menuItemTipoDeVenda	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMenuItemTipoDeVenda() {
+		if (menuItemTipoDeVenda == null) {
+			menuItemTipoDeVenda = new JMenuItem();
+			menuItemTipoDeVenda.setText("Tipo de Venda...");
+			menuItemTipoDeVenda.setMnemonic(java.awt.event.KeyEvent.VK_T);
+		}
+		return menuItemTipoDeVenda;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
