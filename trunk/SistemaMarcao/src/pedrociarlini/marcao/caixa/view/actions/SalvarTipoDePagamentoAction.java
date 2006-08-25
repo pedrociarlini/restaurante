@@ -18,9 +18,7 @@ public class SalvarTipoDePagamentoAction extends AbstractAction {
 		try {
 			caixa.inserirTipoDePagamento(tipo);
 		} catch (CaixaException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }

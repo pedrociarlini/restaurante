@@ -4,13 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import pedrociarlini.marcao.actions.AbrirJanelaAction;
 import pedrociarlini.marcao.caixa.view.JanelaFechamentoDeCaixa;
 
-public class AbrirFechamentoDeCaixa extends AbstractAction {
-
-	public void actionPerformed(ActionEvent e) {
-		JanelaFechamentoDeCaixa janela = JanelaFechamentoDeCaixa.getInstance();
-		janela.setVisible(true);
-	}
+public class AbrirFechamentoDeCaixa extends AbrirJanelaAction {
 
 }
