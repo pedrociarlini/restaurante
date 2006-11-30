@@ -18,10 +18,16 @@ public class ActionsFrontController extends AbstractAction {
 	private static Map<String, Action> actions = new HashMap<String, Action>(10);
 
 	public ActionsFrontController() {
-		actions.put("SalvarTipoPagamento", new SalvarTipoDePagamentoAction());
+        loadConfiguration();
 	}
 
-	public void actionPerformed(ActionEvent ev) {
+	private void loadConfiguration() {
+        actions.put("SalvarTipoPagamento", new SalvarTipoDePagamentoAction());
+        org.apache.commons.betwixt
+        
+    }
+
+    public void actionPerformed(ActionEvent ev) {
 		String actionCommand = ev.getActionCommand();
 		Action action = actions.get(actionCommand);
 		synchronized (action) {
