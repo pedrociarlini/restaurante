@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowmodel version="5" flowname="fluxo de caixa">
+  <startflowlets>
+    <startflowlet x="243" y="15">
+      <flowletlabel x="256" y="16" text="Start"/>
+    </startflowlet>
+  </startflowlets>
+  <javataskflowlets>
+    <javataskflowlet x="261" y="89">
+      <flowletlabel x="245" y="93" text="ClasseExecutada"/>
+    </javataskflowlet>
+    <javataskflowlet x="144" y="277">
+      <flowletlabel x="134" y="281" text="Outra Atividade"/>
+    </javataskflowlet>
+  </javataskflowlets>
+  <scripttaskflowlets/>
+  <decisionflowlets>
+    <decisionflowlet x="268" y="199">
+      <flowletlabel x="273" y="218" text="(1 == 1)"/>
+    </decisionflowlet>
+  </decisionflowlets>
+  <joinflowlets>
+    <joinflowlet x="302" y="364"/>
+  </joinflowlets>
+  <callflowlets>
+    <callflowlet x="422" y="264">
+      <flowletlabel x="422" y="264" text="someflow"/>
+    </callflowlet>
+  </callflowlets>
+  <jumpflowlets/>
+  <templateflowlets/>
+  <endflowlets/>
+  <connections>
+    <transitions>
+      <transition>
+        <sourceflowlet type="start" index="0" anchor="0"/>
+        <targetflowlet type="javatask" index="0" anchor="0"/>
+        <bendpoints/>
+      </transition>
+      <transition>
+        <sourceflowlet type="javatask" index="0" anchor="2"/>
+        <targetflowlet type="decision" index="0" anchor="0"/>
+        <bendpoints/>
+      </transition>
+      <transition>
+        <sourceflowlet type="javatask" index="1" anchor="3"/>
+        <targetflowlet type="join" index="0" anchor="0"/>
+        <bendpoints/>
+      </transition>
+      <transition>
+        <sourceflowlet type="call" index="0" anchor="1"/>
+        <targetflowlet type="join" index="0" anchor="3"/>
+        <bendpoints/>
+      </transition>
+    </transitions>
+    <booleantransitions>
+      <booleantransition value="true">
+        <sourceflowlet type="decision" index="0" anchor="1"/>
+        <targetflowlet type="javatask" index="1" anchor="0"/>
+        <bendpoints/>
+      </booleantransition>
+      <booleantransition value="false">
+        <sourceflowlet type="decision" index="0" anchor="3"/>
+        <targetflowlet type="call" index="0" anchor="0"/>
+        <bendpoints/>
+      </booleantransition>
+    </booleantransitions>
+  </connections>
+</flowmodel>

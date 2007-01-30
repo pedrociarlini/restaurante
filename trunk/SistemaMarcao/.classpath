@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src/srcbeans"/>
+	<classpathentry kind="src" path="src/srcbuild"/>
+	<classpathentry kind="src" path="src/srcpos"/>
+	<classpathentry kind="src" path="src/srcdata"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="deps/lib/antlr-2.7.6rc1.jar"/>
 	<classpathentry kind="lib" path="deps/lib/asm.jar"/>
@@ -21,5 +24,25 @@
 	<classpathentry kind="lib" path="deps/lib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="deps/lib/mysql-connector-java-5.0.3-bin.jar"/>
 	<classpathentry kind="lib" path="deps/lib/commons-betwixt-0.7.jar"/>
+	<classpathentry kind="lib" path="deps/lib/axis.jar"/>
+	<classpathentry kind="lib" path="deps/lib/bsh-core-2.0b4.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-beanutils-1.5.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-collections-2.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="deps/lib/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="deps/lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="deps/lib/itext-1.3.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jasperreports-1.2.8.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jdt-compiler-3.1.1.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jfreechart-1.0.0.jar"/>
+	<classpathentry kind="lib" path="deps/lib/jpos110.jar"/>
+	<classpathentry kind="lib" path="deps/lib/l2fprod-common-tasks.jar"/>
+	<classpathentry kind="lib" path="deps/lib/poi-2.0-final-20040126.jar"/>
+	<classpathentry kind="lib" path="deps/lib/RXTXcomm.jar"/>
+	<classpathentry kind="lib" path="deps/lib/saaj.jar"/>
+	<classpathentry kind="lib" path="deps/lib/velocity-1.4.jar"/>
+	<classpathentry kind="lib" path="deps/lib/comm.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
