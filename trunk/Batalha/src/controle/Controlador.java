@@ -2,26 +2,15 @@ package controle;
 
 import gui.FramePrincipal;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.TimeZone;
-import java.util.Vector;
-
 import javax.swing.JOptionPane;
 
 import algoritmo.Agentes;
 import algoritmo.Ambiente;
 
-import sun.awt.windows.ThemeReader;
-
 public class Controlador {
 
 	// FramePrincipal
 	private FramePrincipal framePrincipal;
-
-	// InterpretadorArquivo
-	private InterpretadorArquivo interpretadorArquivo;
 
 	// *** Threads ***
 
@@ -53,20 +42,21 @@ public class Controlador {
 		// Diz se a simulação está parada
 		this.stop = true;
 
-		// InterpretadorArquivo
-		interpretadorArquivo = new InterpretadorArquivo();
-
 		// AlgoritmoLabirinto
 		algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
 	}
 
+	/**
+	 * Lê o arquivo com a configuração do cenário e prepara o ambiente para excução.
+	 * @param caminhoArquivo Caminho absoluto do arquivo.
+	 */
 	public void carregaSimulacao(String caminhoArquivo) {
 		if (stop) {
 			// Atualiza o caminho do arquivo
 			this.caminhoArquivo = caminhoArquivo;
 
 			// Carrega a matriz do arquivo
-			matrizSimulacao = interpretadorArquivo.leArquivo(caminhoArquivo);
+			matrizSimulacao = InterpretadorArquivo.leArquivo(caminhoArquivo);
 
 			// Carrega a simulacao passando a matriz
 			framePrincipal.carregaSimulacao(matrizSimulacao);
@@ -79,6 +69,9 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Inicia a simulação.
+	 */
 	public void play() {
 		if (matrizSimulacao == null) {
 			JOptionPane.showMessageDialog(null,
@@ -119,8 +112,8 @@ public class Controlador {
 		stop = true;
 
 		// Zera o cronômetro
-		//framePrincipal.zeraEnergia();
-		framePrincipal.iniciarJogo(); 
+		// framePrincipal.zeraEnergia();
+		framePrincipal.iniciarJogo();
 
 		// Volta ao ambiente inicial
 		if (caminhoArquivo != null) {
@@ -131,14 +124,19 @@ public class Controlador {
 		algoritmoLabirinto = null;
 	}
 
+	/**
+	 * Cria uma nova instância da Thread de simulação do jogo e inicia a simulação.
+	 */
 	private void iniciaSimulacao() {
 		// Inicia thread Simulação
 		threadSimulacao = new ThreadSimulacao(algoritmoLabirinto,
 				framePrincipal, matrizSimulacao);
 		threadSimulacao.start();
-
 	}
 
+	/**
+	 * Retorna a execução da thread de simulação.
+	 */
 	private void voltaSimulacao() {
 		synchronized (threadSimulacao) {
 			threadSimulacao.pleaseWait = false;
@@ -166,7 +164,8 @@ public class Controlador {
 	}
 
 	public int getEnergiaRestante() {
-		//return (Constantes.tempoPacMan - framePrincipal.getEnergiaRestante());
+		// return (Constantes.tempoPacMan -
+		// framePrincipal.getEnergiaRestante());
 		return (framePrincipal.getEnergiaRestante());
 	}
 
@@ -174,33 +173,33 @@ public class Controlador {
 
 		int cE1 = 0;
 		int cE2 = 0;
-		int geral=0;
+		int geral = 0;
 		String ganhador = "";
-		
+
 		if (framePrincipal.getEnergiaRestante() <= 0) {
 			this.pause();
 
-			for (Iterator iter = this.algoritmoLabirinto.equipes.iterator(); iter.hasNext();) {
-				Agentes element = (Agentes)iter.next();
-				
-				System.out.println("Agente: " + element.getArquitetura().getNumeroAgente() + " Energia: " + element.getArquitetura().getEnergiaIndividual() );
+			for (Agentes element : this.algoritmoLabirinto.equipes) {
+
+				System.out.println("Agente: "
+						+ element.getArquitetura().getNumeroAgente()
+						+ " Energia: "
+						+ element.getArquitetura().getEnergiaIndividual());
 				geral++;
-				if (geral<=10)
+				if (geral <= 10)
 					cE1 += element.getArquitetura().getEnergiaIndividual();
 				else
 					cE2 += element.getArquitetura().getEnergiaIndividual();
 			}
 
-			if (cE1>cE2) 
+			if (cE1 > cE2)
 				ganhador = "Equipe 1 Ganhou!";
 			else
-				ganhador = "Equipe 2 Ganhou!";	
+				ganhador = "Equipe 2 Ganhou!";
 
-			
-			JOptionPane.showMessageDialog(null, "Fim do Tempo! Equipe1: " + cE1 + " Equipe2: " + cE2 + " \n"+ ganhador);
-				
+			JOptionPane.showMessageDialog(null, "Fim do Tempo! Equipe1: " + cE1
+					+ " Equipe2: " + cE2 + " \n" + ganhador);
+
 		}
-
 	}
-
 }

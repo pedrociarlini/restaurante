@@ -15,11 +15,11 @@ public class Ambiente {
 
 	int matrizOlfatoEquipe1[][] = null;
 	int matrizOlfatoEquipe2[][] = null;
-	
-	public List equipes = new ArrayList(); 
+
+	public List<Agentes> equipes = new ArrayList<Agentes>();
 
 	// Cria os agentes
-	//Equipe 1
+	// Equipe 1
 	Agentes equipe2_1;
 	Agentes equipe2_2;
 	Agentes equipe2_3;
@@ -30,7 +30,7 @@ public class Ambiente {
 	Agentes equipe2_8;
 	Agentes equipe2_9;
 	Agentes equipe2_10;
-	
+
 	Agentes equipe1_1;
 	Agentes equipe1_2;
 	Agentes equipe1_3;
@@ -41,10 +41,23 @@ public class Ambiente {
 	Agentes equipe1_8;
 	Agentes equipe1_9;
 	Agentes equipe1_10;
-	
+
+	/**
+	 * Quantidade de linhas do cenário.
+	 */
 	int lin = 30;
+
+	/**
+	 * Quantidade de colunas do cenário do cenário.
+	 */
 	int col = 30;
 
+	/**
+	 * Contrutor que já prepara o ambiente
+	 * 
+	 * @param controlador
+	 * @param matrizSimulacao
+	 */
 	public Ambiente(Controlador controlador, int matrizSimulacao[][]) {
 		// Controlador
 		this.controlador = controlador;
@@ -73,74 +86,93 @@ public class Ambiente {
 	private void criaAgentes() {
 
 		// agente equipe2
-		Equipe2 pm1 = new Equipe2();
-		Equipe2 pm2 = new Equipe2();
-		Equipe2 pm3 = new Equipe2();
-		Equipe2 pm4 = new Equipe2();
-		Equipe2 pm5 = new Equipe2();
-		Equipe2 pm6 = new Equipe2();
-		Equipe2 pm7 = new Equipe2();
-		Equipe2 pm8 = new Equipe2();
-		Equipe2 pm9 = new Equipe2();
-		Equipe2 pm10 = new Equipe2();
+		Equipe2 pm1 = new Equipe2(200);
+		Equipe2 pm2 = new Equipe2(210);
+		Equipe2 pm3 = new Equipe2(220);
+		Equipe2 pm4 = new Equipe2(230);
+		Equipe2 pm5 = new Equipe2(240);
+		Equipe2 pm6 = new Equipe2(250);
+		Equipe2 pm7 = new Equipe2(260);
+		Equipe2 pm8 = new Equipe2(270);
+		Equipe2 pm9 = new Equipe2(280);
+		Equipe2 pm10 = new Equipe2(290);
 
-		equipe2_1 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 200, pm1,this.equipes, matrizOlfatoEquipe2), pm1);
-		equipe2_2 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 210, pm2,this.equipes, matrizOlfatoEquipe2), pm2);
-		equipe2_3 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 220, pm3,this.equipes, matrizOlfatoEquipe2), pm3);
-		equipe2_4 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 230, pm4,this.equipes, matrizOlfatoEquipe2), pm4);
-		equipe2_5 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 240, pm5,this.equipes, matrizOlfatoEquipe2), pm5);
-		equipe2_6 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 250, pm6,this.equipes, matrizOlfatoEquipe2), pm6);
-		equipe2_7 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 260, pm7,this.equipes, matrizOlfatoEquipe2), pm7);
-		equipe2_8 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 270, pm8,this.equipes, matrizOlfatoEquipe2), pm8);
-		equipe2_9 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 280, pm9,this.equipes, matrizOlfatoEquipe2), pm9);
-		equipe2_10 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 290, pm10,this.equipes, matrizOlfatoEquipe2), pm10);
-		
-		
+		equipe2_1 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm1.getNome(), pm1,
+				this.equipes, matrizOlfatoEquipe2), pm1);
+		equipe2_2 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm2.getNome(), pm2,
+				this.equipes, matrizOlfatoEquipe2), pm2);
+		equipe2_3 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm3.getNome(), pm3,
+				this.equipes, matrizOlfatoEquipe2), pm3);
+		equipe2_4 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm4.getNome(), pm4,
+				this.equipes, matrizOlfatoEquipe2), pm4);
+		equipe2_5 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm5.getNome(), pm5,
+				this.equipes, matrizOlfatoEquipe2), pm5);
+		equipe2_6 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm6.getNome(), pm6,
+				this.equipes, matrizOlfatoEquipe2), pm6);
+		equipe2_7 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm7.getNome(), pm7,
+				this.equipes, matrizOlfatoEquipe2), pm7);
+		equipe2_8 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm8.getNome(), pm8,
+				this.equipes, matrizOlfatoEquipe2), pm8);
+		equipe2_9 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm9.getNome(), pm9,
+				this.equipes, matrizOlfatoEquipe2), pm9);
+		equipe2_10 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, pm10.getNome(), pm10,
+				this.equipes, matrizOlfatoEquipe2), pm10);
+
 		// agentes equipe1
-		Equipe1 fm1 = new Equipe1();
-		Equipe1 fm2 = new Equipe1();
-		Equipe1 fm3 = new Equipe1();
-		Equipe1 fm4 = new Equipe1();
-		Equipe1 fm5 = new Equipe1();
-		Equipe1 fm6 = new Equipe1();
-		Equipe1 fm7 = new Equipe1();
-		Equipe1 fm8 = new Equipe1();
-		Equipe1 fm9 = new Equipe1();
-		Equipe1 fm10 = new Equipe1();
-		
-		equipe1_1 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 100, fm1,this.equipes, matrizOlfatoEquipe2), fm1);
-		equipe1_2 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 110, fm2,this.equipes, matrizOlfatoEquipe2), fm2);
-		equipe1_3 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 120, fm3,this.equipes, matrizOlfatoEquipe2), fm3);
-		equipe1_4 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 130, fm4,this.equipes, matrizOlfatoEquipe2), fm4);
-		equipe1_5 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 140, fm5,this.equipes, matrizOlfatoEquipe2), fm5);
-		equipe1_6 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 150, fm6,this.equipes, matrizOlfatoEquipe2), fm6);
-		equipe1_7 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 160, fm7,this.equipes, matrizOlfatoEquipe2), fm7);
-		equipe1_8 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 170, fm8,this.equipes, matrizOlfatoEquipe2), fm8);
-		equipe1_9 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 180, fm9,this.equipes, matrizOlfatoEquipe2), fm9);
-		equipe1_10 = new Agentes(new Arquitetura(matrizSimulacao, matrizOlfatoEquipe1,
-				controlador, 190, fm10,this.equipes, matrizOlfatoEquipe2), fm10);
-		
-		//---------------------------
-		//Lista de Equipes
+		Equipe1 fm1 = new Equipe1(100);
+		Equipe1 fm2 = new Equipe1(110);
+		Equipe1 fm3 = new Equipe1(120);
+		Equipe1 fm4 = new Equipe1(130);
+		Equipe1 fm5 = new Equipe1(140);
+		Equipe1 fm6 = new Equipe1(150);
+		Equipe1 fm7 = new Equipe1(160);
+		Equipe1 fm8 = new Equipe1(170);
+		Equipe1 fm9 = new Equipe1(180);
+		Equipe1 fm10 = new Equipe1(190);
+
+		equipe1_1 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm1.getNome(), fm1,
+				this.equipes, matrizOlfatoEquipe2), fm1);
+		equipe1_2 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm2.getNome(), fm2,
+				this.equipes, matrizOlfatoEquipe2), fm2);
+		equipe1_3 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm3.getNome(), fm3,
+				this.equipes, matrizOlfatoEquipe2), fm3);
+		equipe1_4 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm4.getNome(), fm4,
+				this.equipes, matrizOlfatoEquipe2), fm4);
+		equipe1_5 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm5.getNome(), fm5,
+				this.equipes, matrizOlfatoEquipe2), fm5);
+		equipe1_6 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm6.getNome(), fm6,
+				this.equipes, matrizOlfatoEquipe2), fm6);
+		equipe1_7 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm7.getNome(), fm7,
+				this.equipes, matrizOlfatoEquipe2), fm7);
+		equipe1_8 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm8.getNome(), fm8,
+				this.equipes, matrizOlfatoEquipe2), fm8);
+		equipe1_9 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm9.getNome(), fm9,
+				this.equipes, matrizOlfatoEquipe2), fm9);
+		equipe1_10 = new Agentes(new Arquitetura(matrizSimulacao,
+				matrizOlfatoEquipe1, controlador, fm10.getNome(), fm10,
+				this.equipes, matrizOlfatoEquipe2), fm10);
+
+		// ---------------------------
+		// Lista de Equipes
 		this.equipes.add(equipe1_1);
 		this.equipes.add(equipe1_2);
 		this.equipes.add(equipe1_3);
@@ -162,127 +194,42 @@ public class Ambiente {
 		this.equipes.add(equipe2_8);
 		this.equipes.add(equipe2_9);
 		this.equipes.add(equipe2_10);
-		//---------------------------
-	
+		// ---------------------------
 	}
 
 	public void executa() {
-
-		//Equipe 2 ---------------------------------------------------------
-		if (equipe2_1.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_1.getArquitetura().percebeEquipe2();
-			equipe2_1.getArquitetura().moverEquipe2(equipe2_1.getPrograma().acao());
-		}
-		
-		if (equipe2_2.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_2.getArquitetura().percebeEquipe2();
-			equipe2_2.getArquitetura().moverEquipe2(equipe2_2.getPrograma().acao());
-		}
-
-		if (equipe2_3.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_3.getArquitetura().percebeEquipe2();
-			equipe2_3.getArquitetura().moverEquipe2(equipe2_3.getPrograma().acao());
-		}
-		if (equipe2_4.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_4.getArquitetura().percebeEquipe2();
-			equipe2_4.getArquitetura().moverEquipe2(equipe2_4.getPrograma().acao());
-		}
-		
-		if (equipe2_5.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_5.getArquitetura().percebeEquipe2();
-			equipe2_5.getArquitetura().moverEquipe2(equipe2_5.getPrograma().acao());
+		for (Agentes soldado : equipes) {
+			int acaoEscolhida = soldado.getPrograma().acao();
+			if (acaoEscolhida != 0) {
+				((ProgramaAbstract) soldado.getPrograma())
+						.setUltimaAcao(acaoEscolhida);
+			}
+			if (soldado.getPrograma() instanceof Equipe1) {
+				if (soldado.getArquitetura().getEnergiaIndividual() > 0) {
+					soldado.getArquitetura().percebeEquipe1();
+					soldado.getArquitetura().moverEquipe1(acaoEscolhida);
+				}
+			} else {
+				if (soldado.getArquitetura().getEnergiaIndividual() > 0) {
+					soldado.getArquitetura().percebeEquipe2();
+					soldado.getArquitetura().moverEquipe2(acaoEscolhida);
+				}
+			}
 		}
 
-		if (equipe2_6.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_6.getArquitetura().percebeEquipe2();
-			equipe2_6.getArquitetura().moverEquipe2(equipe2_6.getPrograma().acao());
-		}
-		if (equipe2_7.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_7.getArquitetura().percebeEquipe2();
-			equipe2_7.getArquitetura().moverEquipe2(equipe2_7.getPrograma().acao());
-		}
-		
-		if (equipe2_8.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_8.getArquitetura().percebeEquipe2();
-			equipe2_8.getArquitetura().moverEquipe2(equipe2_8.getPrograma().acao());
-		}
-
-		if (equipe2_9.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_9.getArquitetura().percebeEquipe2();
-			equipe2_9.getArquitetura().moverEquipe2(equipe2_9.getPrograma().acao());
-		}
-
-		if (equipe2_10.getArquitetura().getEnergiaIndividual()>0){
-			equipe2_10.getArquitetura().percebeEquipe2();
-			equipe2_10.getArquitetura().moverEquipe2(equipe2_10.getPrograma().acao());
-		}
-		//Equipe 2 ---------------------------------------------------------
-		
-		//Equipe 1 ---------------------------------------------------------
-		if (equipe1_1.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_1.getArquitetura().percebeEquipe1();
-			equipe1_1.getArquitetura().moverEquipe1(equipe1_1.getPrograma().acao());	
-		}
-
-		if (equipe1_2.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_2.getArquitetura().percebeEquipe1();
-			equipe1_2.getArquitetura().moverEquipe1(equipe1_2.getPrograma().acao());	
-		}
-
-		if (equipe1_3.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_3.getArquitetura().percebeEquipe1();
-			equipe1_3.getArquitetura().moverEquipe1(equipe1_3.getPrograma().acao());
-		}
-		if (equipe1_4.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_4.getArquitetura().percebeEquipe1();
-			equipe1_4.getArquitetura().moverEquipe1(equipe1_4.getPrograma().acao());	
-		}
-
-		if (equipe1_5.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_5.getArquitetura().percebeEquipe1();
-			equipe1_5.getArquitetura().moverEquipe1(equipe1_5.getPrograma().acao());	
-		}
-
-		if (equipe1_6.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_6.getArquitetura().percebeEquipe1();
-			equipe1_6.getArquitetura().moverEquipe1(equipe1_6.getPrograma().acao());
-		}
-		if (equipe1_7.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_7.getArquitetura().percebeEquipe1();
-			equipe1_7.getArquitetura().moverEquipe1(equipe1_7.getPrograma().acao());	
-		}
-
-		if (equipe1_8.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_8.getArquitetura().percebeEquipe1();
-			equipe1_8.getArquitetura().moverEquipe1(equipe1_8.getPrograma().acao());	
-		}
-
-		if (equipe1_9.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_9.getArquitetura().percebeEquipe1();
-			equipe1_9.getArquitetura().moverEquipe1(equipe1_9.getPrograma().acao());
-		}
-		
-		if (equipe1_10.getArquitetura().getEnergiaIndividual()>0){
-			equipe1_10.getArquitetura().percebeEquipe1();
-			equipe1_10.getArquitetura().moverEquipe1(equipe1_10.getPrograma().acao());
-		}
-
-		// Equipe 1 ---------------------------------------------------------
-		
 		controlador.reduzTempo(1);
-		
-/*		if (posicaoMovimentoEquipe2 > 0) {
-			//controlador.atualizaTempo(1);
-		}
-*/		
+
+		/*
+		 * if (posicaoMovimentoEquipe2 > 0) { //controlador.atualizaTempo(1); }
+		 */
 		this.decrementaFeromonio();
 		controlador.isFimSimulacao();
-		//this.imprimeFeromonio();
+		// this.imprimeFeromonio();
 	}
 
 	private void decrementaFeromonio() {
 
-		//Equipe 1
+		// Equipe 1
 		for (int i = 0; i < lin; i++) {
 			for (int j = 0; j < col; j++) {
 
@@ -296,7 +243,7 @@ public class Ambiente {
 			}
 		}
 
-		//Equipe 2
+		// Equipe 2
 		for (int i = 0; i < lin; i++) {
 			for (int j = 0; j < col; j++) {
 
@@ -312,17 +259,21 @@ public class Ambiente {
 
 	}
 
-	private void imprimeFeromonio() {
-		System.out.println("-----------------------------------------------------------------------");
+	/**
+	 * Escreve num log o que aconteceu com o agente.
+	 */
+	@SuppressWarnings(value = "unused")
+	private void logFeromonio() {
+		System.out
+				.println("-----------------------------------------------------------------------");
 		for (int i = 0; i < lin; i++) {
 			for (int j = 0; j < col; j++) {
 				System.out.print(matrizOlfatoEquipe1[i][j] + ";");
-				//System.out.print(matrizSimulacao[j][i] + ";");
+				// System.out.print(matrizSimulacao[j][i] + ";");
 			}
 			System.out.println("");
 		}
 		System.out.println("fim");
 	}
-
 
 }

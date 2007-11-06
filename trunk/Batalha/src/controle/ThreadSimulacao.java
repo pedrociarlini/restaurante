@@ -8,8 +8,14 @@ public class ThreadSimulacao extends Thread {
 	// FramePrincipal
 	private FramePrincipal framePrincipal;
 
+	/**
+	 * Indica se o ambiente está pausado.
+	 */
 	public boolean pleaseWait = false;
 
+	/**
+	 * Indica se a simulação terminou.
+	 */
 	public boolean allDone = false;
 
 	private int tempoSimulação;

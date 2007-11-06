@@ -32,12 +32,13 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import controle.Constantes;
 import controle.Controlador;
 
-public class FramePrincipal extends JFrame implements ActionListener{
+@SuppressWarnings("serial")
+public class FramePrincipal extends JFrame implements ActionListener {
 
-	//Container
+	// Container
 	private Container container;
-	
-	//JPanel
+
+	// JPanel
 	private JPanel panelNorte;
 	private JPanel panelNorteEsq;
 	private JPanel panelNorteEsqEsq;
@@ -46,37 +47,38 @@ public class FramePrincipal extends JFrame implements ActionListener{
 	private JPanel panelCentro;
 	private JPanel panelLeste;
 	private JPanel panelSul;
-	
-	//JToolBar
-	private JToolBar toolBarControle; 
-	
-	//JLabel
+
+	// JToolBar
+	private JToolBar toolBarControle;
+
+	// JLabel
 	private JLabel labelTempo;
 	private JLabel labelTempoValor;
-	
-	//Icon
+
+	// Icon
 	private Icon iconPlay;
 	private Icon iconPause;
 	private Icon iconStop;
 	private Icon iconCarregar;
 	private Icon iconClose;
 
-	//JButton
+	// JButton
 	private JButton buttonPlay;
 	private JButton buttonPause;
 	private JButton buttonStop;
 	private JButton buttonCarregar;
 	private JButton buttonClose;
-	
+
 	private frmGrid geracoesFit;
-	
-	//Controlador
+
+	// Controlador
 	private Controlador controlador;
-	
-	//PainelLabirinto 
-	private PainelLabirinto painelLabirinto; 
+
+	// PainelLabirinto
+	private PainelLabirinto painelLabirinto;
+
 	public FramePrincipal() {
-//		mudaLookAndFeel();
+		// mudaLookAndFeel();
 		configuraFrame();
 		instanciaVariaveis();
 		constroiFrame();
@@ -84,106 +86,96 @@ public class FramePrincipal extends JFrame implements ActionListener{
 		registraEventos();
 		this.setVisible(true);
 	}
-	
+
 	public void criarGridInformacoes() {
-		
+
 		geracoesFit = new frmGrid();
 
 		geracoesFit.addColuna("Agente");
 		geracoesFit.addColuna("Energia");
 		geracoesFit.addColuna("Direção");
-		
-		geracoesFit.setPreferredSize(new Dimension(450,120));
-		
-		//panelLeste.add(geracoesFit.returnPanel());
+
+		geracoesFit.setPreferredSize(new Dimension(450, 120));
+
+		// panelLeste.add(geracoesFit.returnPanel());
 		panelSul.add(geracoesFit.returnPanel());
-		
+
 		this.pack();
 	}
 
-	public void atualizaGrid(List equipes){
+	public void atualizaGrid(List<Agentes> equipes) {
 
-		for (int i = 1; i <= equipes.size() ; i++) {
-			geracoesFit.removeLinha(0);	
+		for (int i = 1; i <= equipes.size(); i++) {
+			geracoesFit.removeLinha(0);
 		}
-		
-		for (Iterator iter = equipes.iterator(); iter.hasNext();) {
-			Agentes element = (Agentes)iter.next();
 
+		for (Agentes element : equipes) {
 			String m[] = new String[3];
-			m[0] = "Agente_"+ element.getArquitetura().getNumeroAgente();
-			m[1] = element.getArquitetura().getEnergiaIndividual()+""; 
-			m[2] = element.getArquitetura().getDirecao(); 
-			
+			m[0] = "Agente_" + element.getArquitetura().getNumeroAgente();
+			m[1] = element.getArquitetura().getEnergiaIndividual() + "";
+			m[2] = element.getArquitetura().getDirecao();
+
 			geracoesFit.addLinha(m);
 		}
-			
 	}
+
 	private void mudaLookAndFeel() {
-        /* LookAndFeel - Windows */
-        try {
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		/* LookAndFeel - Windows */
+		try {
+			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void configuraFrame() {
-		this.setTitle("Labirinto");
-		this.setSize(400,395);
+		this.setTitle("Labirinto :: v2.0beta");
+		this.setSize(400, 395);
 		this.setResizable(false);
-		this.addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e){
-				System.exit(0);
-			}
-		});
-		
-		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	private void instanciaVariaveis() {
-		//Container
+		// Container
 		container = this.getContentPane();
 		container.setLayout(new BorderLayout());
-		
-		//JPanel
+
+		// JPanel
 		panelNorte = new JPanel(new BorderLayout());
 		panelNorteEsq = new JPanel();
 		panelNorteEsqEsq = new JPanel();
 		panelNorteEsqDir = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		panelNorteEsqDir.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		panelNorteEsqDir.setPreferredSize(new Dimension(80,30));
+		panelNorteEsqDir.setPreferredSize(new Dimension(80, 30));
 		panelNorteDir = new JPanel();
-		
+
 		panelCentro = new JPanel();
 		panelCentro.setBackground(Color.WHITE);
 		panelCentro.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		
+
 		panelLeste = new JPanel();
-		panelSul  = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelSul = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelSul.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		panelSul.setPreferredSize(new Dimension(10,130));
-		
-		
-		
-		//JToolBar
-		toolBarControle = new JToolBar("Controle"); 
-		
-		//JLabel
+		panelSul.setPreferredSize(new Dimension(10, 130));
+
+		// JToolBar
+		toolBarControle = new JToolBar("Controle");
+
+		// JLabel
 		labelTempo = new JLabel("Tempo : ");
 		labelTempoValor = new JLabel("0");
-		
-		//Icon
+
+		// Icon
 		iconPlay = new ImageIcon("src/image/play.jpg");
 		iconPause = new ImageIcon("src/image/pause.jpg");
 		iconStop = new ImageIcon("src/image/stop.jpg");
 		iconCarregar = new ImageIcon("src/image/carregaArquivo.jpg");
 		iconClose = new ImageIcon("src/image/exit.jpg");
-		
-		//JButton
+
+		// JButton
 		buttonPlay = new JButton(iconPlay);
-		buttonPlay.setToolTipText("Play");
+		buttonPlay.setToolTipText("Play. Inicia ou retorna a execução da simulação.");
 		buttonPause = new JButton(iconPause);
 		buttonPause.setToolTipText("Pause");
 		buttonStop = new JButton(iconStop);
@@ -192,58 +184,58 @@ public class FramePrincipal extends JFrame implements ActionListener{
 		buttonCarregar.setToolTipText("Carregar");
 		buttonClose = new JButton(iconClose);
 		buttonClose.setToolTipText("Close");
-		
+
 		iniciarJogo();
-		//Controlador
+		// Controlador
 		controlador = new Controlador(this);
 
 	}
 
 	private void constroiFrame() {
-		//Adiciona componentes no Container
+		// Adiciona componentes no Container
 		container.add(panelNorte, BorderLayout.NORTH);
 		container.add(panelCentro, BorderLayout.CENTER);
 		container.add(panelLeste, BorderLayout.EAST);
-		container.add(panelSul , BorderLayout.SOUTH);
-		
-		//Adiciona componentes no panelNorte
+		container.add(panelSul, BorderLayout.SOUTH);
+
+		// Adiciona componentes no panelNorte
 		panelNorte.add(panelNorteEsq, BorderLayout.WEST);
 		panelNorte.add(panelNorteDir, BorderLayout.EAST);
-		
-		//Adiciona componentes no panelNorteEsq
+
+		// Adiciona componentes no panelNorteEsq
 		panelNorteEsq.add(panelNorteEsqEsq, BorderLayout.EAST);
 		panelNorteEsq.add(panelNorteEsqDir, BorderLayout.EAST);
-		
-		//Adiciona componentes no panelNorteEsqEsq
+
+		// Adiciona componentes no panelNorteEsqEsq
 		panelNorteEsqEsq.add(labelTempo);
-		
-		//Adiciona componentes no panelNorteEsqDir
+
+		// Adiciona componentes no panelNorteEsqDir
 		panelNorteEsqDir.add(labelTempoValor);
-		
-		//Adiciona componentes no panelNorteDir
+
+		// Adiciona componentes no panelNorteDir
 		panelNorteDir.add(toolBarControle, BorderLayout.EAST);
-		
-		//adiciona componentes no panelLest
+
+		// adiciona componentes no panelLest
 		Legenda l = new Legenda("Legenda");
-		l.addLinha(Color.BLUE,8,8,"Parede" );
-		l.addLinha(Color.YELLOW,8,8,"Energia" );
-		l.addLinha(Color.RED ,8,8,"Equipe 1" );
-		l.addLinha(Color.WHITE,8,8,"Equipe 2" );
-		
+		l.addLinha(Color.BLUE, 8, 8, "Parede");
+		l.addLinha(Color.YELLOW, 8, 8, "Energia");
+		l.addLinha(Color.RED, 8, 8, "Equipe 1");
+		l.addLinha(Color.WHITE, 8, 8, "Equipe 2");
+
 		panelLeste.add(l);
-		//Adiciona componentes no toolBarControle
+		// Adiciona componentes no toolBarControle
 		toolBarControle.add(buttonPlay);
 		toolBarControle.add(buttonPause);
 		toolBarControle.add(buttonStop);
 		toolBarControle.add(buttonCarregar);
 		toolBarControle.add(buttonClose);
-		
+
 	}
 
 	private void registraEventos() {
-		//JButton
-		buttonPlay.addActionListener(this); 
-		buttonPause.addActionListener(this); 
+		// JButton
+		buttonPlay.addActionListener(this);
+		buttonPause.addActionListener(this);
 		buttonStop.addActionListener(this);
 		buttonCarregar.addActionListener(this);
 		buttonClose.addActionListener(this);
@@ -251,25 +243,25 @@ public class FramePrincipal extends JFrame implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		if (source == buttonPlay){
+		if (source == buttonPlay) {
 			controlador.play();
-		}else if (source == buttonPause){
+		} else if (source == buttonPause) {
 			controlador.pause();
-		}else if (source == buttonStop){
+		} else if (source == buttonStop) {
 			controlador.stop();
-		}else if (source == buttonCarregar){
+		} else if (source == buttonCarregar) {
 			String caminhoArquivo = abrirArquivo();
-			if (!caminhoArquivo.equals("")){
+			if (!caminhoArquivo.equals("")) {
 				controlador.carregaSimulacao(caminhoArquivo);
 			}
-			
-		}else if (source == buttonClose){
+
+		} else if (source == buttonClose) {
 			System.exit(0);
 		}
 	}
-	
+
 	private String abrirArquivo() {
-		
+
 		String caminhoArquivo = "";
 
 		JFileChooser chooser = new JFileChooser();
@@ -291,12 +283,12 @@ public class FramePrincipal extends JFrame implements ActionListener{
 			caminhoArquivo = chooser.getSelectedFile().getPath();
 			System.out.println(caminhoArquivo);
 		}
-		
+
 		return caminhoArquivo;
-		
+
 	}
-	
-	public void carregaSimulacao(int [][] matrizSimulacao){
+
+	public void carregaSimulacao(int[][] matrizSimulacao) {
 		painelLabirinto = new PainelLabirinto();
 		painelLabirinto.setPixel(15);
 		painelLabirinto.setGrid(matrizSimulacao);
@@ -305,44 +297,44 @@ public class FramePrincipal extends JFrame implements ActionListener{
 		SwingUtilities.updateComponentTreeUI(panelCentro);
 		this.pack();
 	}
-	
-	public void atualizaAmbiente(int [][] matrizSimulacao){
-		
+
+	public void atualizaAmbiente(int[][] matrizSimulacao) {
+
 		painelLabirinto.setGrid(matrizSimulacao);
 		panelCentro.removeAll();
 		panelCentro.add(painelLabirinto.returnPanel());
 		SwingUtilities.updateComponentTreeUI(panelCentro);
 	}
-	
-	public void aumentarEnergia(int energia){
+
+	public void aumentarEnergia(int energia) {
 		int tempo = Integer.parseInt(this.labelTempoValor.getText());
-		tempo +=energia;
-		this.labelTempoValor.setText(Integer.toString(tempo));
-	}
-	
-	public void reduzCronometro(int energia){
-		int tempo = Integer.parseInt(this.labelTempoValor.getText());
-		tempo -=energia;
-		if (tempo<0){
-			tempo = 0;
-		}
-		
+		tempo += energia;
 		this.labelTempoValor.setText(Integer.toString(tempo));
 	}
 
-	public int getEnergiaRestante(){
+	public void reduzCronometro(int energia) {
+		int tempo = Integer.parseInt(this.labelTempoValor.getText());
+		tempo -= energia;
+		if (tempo < 0) {
+			tempo = 0;
+		}
+
+		this.labelTempoValor.setText(Integer.toString(tempo));
+	}
+
+	public int getEnergiaRestante() {
 		return Integer.parseInt(this.labelTempoValor.getText());
 	}
-	
-	public void iniciarJogo(){
-		this.labelTempoValor.setText(new Integer(Constantes.tempoInicialJogo).toString());
+
+	public void iniciarJogo() {
+		this.labelTempoValor.setText(new Integer(Constantes.tempoInicialJogo)
+				.toString());
 	}
-	
-	
-	public void zeraEnergia(){
+
+	public void zeraEnergia() {
 		this.labelTempoValor.setText(new String("0"));
 	}
-	
+
 	public static void main(String[] args) {
 		new FramePrincipal();
 	}

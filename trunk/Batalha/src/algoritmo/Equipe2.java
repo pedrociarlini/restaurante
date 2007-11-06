@@ -1,22 +1,17 @@
 package algoritmo;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import controle.Constantes;
-
 public class Equipe2 extends ProgramaEquipe2 {
+
 	static int cont = 0;
 	
+	public Equipe2(int nome) {
+		super(nome);
+	}
+
 	public int acao() {
-		
-		//Lab1
-		//int[] movimento = {4,4,4,4,4,4,1,1,1,1,1,1,4,4,1,4,4,1,1,1,1,1,3};
-		//Lab2
-		//int[] movimento = {3,1,3,3,3,3,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1};
-		//Lab3
-		int[] movimento = {4,4,4,4,1,1,1,4,4,4,1,4,1,1,1,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,4,4,1,1,4,4,4,4,4,1,1,3,3};
 		
 		int sorteio = 1;
 		List posicao = new ArrayList();
