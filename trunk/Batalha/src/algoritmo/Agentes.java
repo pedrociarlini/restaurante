@@ -7,7 +7,6 @@ public class Agentes {
 
 
 	public Agentes(Arquitetura arquitetura, Programa programa) {
-		// TODO Auto-generated constructor stub
 		this.arquitetura = arquitetura;
 		this.programa = programa;
 	}

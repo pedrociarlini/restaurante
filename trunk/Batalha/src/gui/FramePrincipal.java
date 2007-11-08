@@ -2,15 +2,17 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -30,7 +33,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import controle.Controlador;
 
 @SuppressWarnings("serial")
-public class FramePrincipal extends JFrame implements ActionListener {
+public class FramePrincipal extends JFrame implements ActionListener, MouseListener {
 
 	// Container
 	private Container container;
@@ -66,6 +69,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	// PainelLabirinto
 	private PainelLabirinto painelLabirinto;
+
+	private JPanel panelAgentes;
+
+	private JTextField equipe1Text;
+
+	private JTextField equipe2Text;
 
 	public FramePrincipal() {
 		// mudaLookAndFeel();
@@ -144,15 +153,47 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			panelNorte = new JPanel(new BorderLayout());
 			panelNorte.add(getPanelNorteEsq(), BorderLayout.WEST);
 			panelNorte.add(getPanelNorteDir(), BorderLayout.EAST);
+			panelNorte.add(getPanelAgentes(), BorderLayout.SOUTH);
 		}
 		return panelNorte;
+	}
+
+	private JPanel getPanelAgentes() {
+		if (panelAgentes == null) {
+			panelAgentes = new JPanel();
+			panelAgentes.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 1));
+			panelAgentes.add(getEquipe1Text());
+			panelAgentes.add(getEquipe2Text());
+		}
+		return panelAgentes;
+	}
+
+	private JTextField getEquipe2Text() {
+		if (equipe2Text == null) {
+			equipe2Text = new JTextField();
+			equipe2Text.setPreferredSize(new Dimension(120, 20));
+			equipe2Text.setToolTipText("Dê um clique para escolher outro agente.");
+			equipe2Text.setEditable(false);
+			equipe2Text.addMouseListener(this);
+		}
+		return equipe2Text;
+	}
+
+	private JTextField getEquipe1Text() {
+		if (equipe1Text == null) {
+			equipe1Text = new JTextField();
+			equipe1Text.setPreferredSize(new Dimension(120, 20));
+			equipe1Text.setToolTipText("Dê um clique para escolher outro agente.");
+			equipe1Text.setEditable(false);
+			equipe1Text.addMouseListener(this);
+		}
+		return equipe1Text;
 	}
 
 	private JPanel getPanelNorteDir() {
 		if (panelNorteDir == null) {
 			panelNorteDir = new JPanel();
 			panelNorteDir.add(getToolBarControle(), BorderLayout.EAST);
-
 		}
 		return panelNorteDir;
 	}
@@ -375,5 +416,37 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new FramePrincipal();
+	}
+
+
+	public void mouseClicked(MouseEvent ev) {
+		if (ev.getSource() == getEquipe1Text()) {
+			Class c = AgenteChooser.showJogadorDialog();
+			if (c != null) {
+				getEquipe1Text().setText(c.getSimpleName());				
+			}
+		}
+		else if (ev.getSource() == getEquipe2Text()) {
+			Class c = AgenteChooser.showJogadorDialog();
+			if (c != null) {
+				getEquipe2Text().setText(c.getSimpleName());				
+			}			
+		}
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		
 	}
 }

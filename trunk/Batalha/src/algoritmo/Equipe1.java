@@ -1,6 +1,12 @@
 package algoritmo;
 
+import algoritmo.agentes.AgentesManager;
+
 public class Equipe1 extends ProgramaEquipe1 {
+	
+	static {
+		AgentesManager.registerClass("Equipe1", Equipe1.class);
+	}
 	
 	public Equipe1(int nome) {
 		super(nome);
