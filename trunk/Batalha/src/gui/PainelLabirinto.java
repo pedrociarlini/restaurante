@@ -250,8 +250,4 @@ public class PainelLabirinto extends JPanel {
 		this.pixel = pixel;
 	}
 
-	public JPanel returnPanel() {
-		return this;
-	}
-
 }

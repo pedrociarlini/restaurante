@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings("serial")
 public class Legenda extends JPanel {
 	private JPanel panelEsq = new JPanel(new GridLayout(0, 1, 0, 0));
 

@@ -28,6 +28,7 @@ public class ThreadSimulacao extends Thread {
 
 	public ThreadSimulacao(Ambiente algoritmoLabirinto,
 			FramePrincipal framePrincipal, int matrizSimulacao[][]) {
+		setName(this.getClass().getSimpleName());
 		this.ambiente = algoritmoLabirinto;
 		this.framePrincipal = framePrincipal;
 		this.matrizSimulacao = matrizSimulacao;

@@ -91,7 +91,7 @@ public class Arquitetura {
 	}
 
 	public int getEnergiaRestante() {
-		return controlador.getEnergiaRestante();
+		return controlador.getTurnosRestantes();
 	}
 
 	public void percebeEquipe2() {

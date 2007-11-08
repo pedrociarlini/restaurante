@@ -12,16 +12,21 @@ public class Controlador {
 	// FramePrincipal
 	private FramePrincipal framePrincipal;
 
+	private int qtdeTurnosRestantes = 0;
+	private int qtdeTurnos = 200;
+
 	// *** Threads ***
 
 	// ThreadSimulacao
 	private ThreadSimulacao threadSimulacao;
 
 	// Diz se a simulação está parada
-	private boolean stop;
+	private boolean stop = true;
 
 	// Matriz da Simulação
 	private int matrizSimulacao[][] = null;
+
+	private int[][] matrizSimulacaoInicial;
 
 	// Caminho do arquivo
 	private String caminhoArquivo = null;
@@ -33,22 +38,16 @@ public class Controlador {
 		// FramePrincipal
 		this.framePrincipal = framePrincipal;
 
-		// *** Threads ***
-
-		// ThreadSimulacao
-		threadSimulacao = new ThreadSimulacao(algoritmoLabirinto,
-				framePrincipal, matrizSimulacao);
-
-		// Diz se a simulação está parada
-		this.stop = true;
-
 		// AlgoritmoLabirinto
 		algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
 	}
 
 	/**
-	 * Lê o arquivo com a configuração do cenário e prepara o ambiente para excução.
-	 * @param caminhoArquivo Caminho absoluto do arquivo.
+	 * Lê o arquivo com a configuração do cenário e prepara o ambiente para
+	 * excução.
+	 * 
+	 * @param caminhoArquivo
+	 *            Caminho absoluto do arquivo.
 	 */
 	public void carregaSimulacao(String caminhoArquivo) {
 		if (stop) {
@@ -56,46 +55,39 @@ public class Controlador {
 			this.caminhoArquivo = caminhoArquivo;
 
 			// Carrega a matriz do arquivo
-			matrizSimulacao = InterpretadorArquivo.leArquivo(caminhoArquivo);
+			matrizSimulacaoInicial = InterpretadorArquivo.leArquivo(caminhoArquivo);
+			matrizSimulacao = matrizSimulacaoInicial;
 
 			// Carrega a simulacao passando a matriz
 			framePrincipal.carregaSimulacao(matrizSimulacao);
 		} else {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Não foi possível carregar o arquivo...\nSimulação em execução!",
-							"ERRO", JOptionPane.ERROR_MESSAGE);
+			throw new RuntimeException(
+					"Não foi possível carregar o arquivo...\n"
+							+ "Simulação em execução!");
 		}
 	}
 
 	/**
 	 * Inicia a simulação.
+	 * @throws Exception Lançado caso não tenha sido carregado 
+	 * nenhum cenário.
 	 */
-	public void play() {
+	public void play() throws Exception {
 		if (matrizSimulacao == null) {
-			JOptionPane.showMessageDialog(null,
-					"O ambiente não foi carregado!", "ERRO",
-					JOptionPane.ERROR_MESSAGE);
+			throw new Exception("O ambiente não foi carregado!");
 		} else {
 			if (stop) {
-
-				// inicia o Algoritmo Labirinto
-				algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
-
 				// Inicia simulação
 				iniciaSimulacao();
 				stop = false;
 			} else {
-				// Simulação já foi inicia e estava pausada
+				// Simulação já foi iniciada e estava pausada
 				voltaSimulacao();
 			}
 		}
 	}
 
 	public void pause() {
-		// Pausa todas as threads
-
 		// Pausa thread Simulação
 		synchronized (threadSimulacao) {
 			threadSimulacao.interrupt();
@@ -103,31 +95,39 @@ public class Controlador {
 		}
 	}
 
-	public void stop() {
+	/**
+	 * Para a simulação, considerando a partida como terminada.
+	 * @throws Exception 
+	 */
+	public void stop() throws Exception {
 		// Stop all threads
 		// Pausa thread Simulação
+		if (!stop) {
 		threadSimulacao.interrupt();
-		threadSimulacao.allDone = true;
-
+		finalizaSimulacao();
 		stop = true;
 
-		// Zera o cronômetro
-		// framePrincipal.zeraEnergia();
-		framePrincipal.iniciarJogo();
-
-		// Volta ao ambiente inicial
-		if (caminhoArquivo != null) {
-			// Carrega a simulacao novamente
-			carregaSimulacao(caminhoArquivo);
-		}
 		// AlgoritmoLabirinto
 		algoritmoLabirinto = null;
+		}
+		else {
+			throw new Exception("A simulação já está parada.");
+		}
 	}
 
 	/**
-	 * Cria uma nova instância da Thread de simulação do jogo e inicia a simulação.
+	 * Cria uma nova instância da Thread de simulação do jogo e inicia a
+	 * simulação.
 	 */
 	private void iniciaSimulacao() {
+		// Volta ao ambiente inicial
+		if (matrizSimulacaoInicial != null) {
+			// Reinicia a simulação
+			matrizSimulacao = matrizSimulacaoInicial;
+		}
+		// inicia o Algoritmo Labirinto
+		algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
+		this.qtdeTurnosRestantes = this.qtdeTurnos;
 		// Inicia thread Simulação
 		threadSimulacao = new ThreadSimulacao(algoritmoLabirinto,
 				framePrincipal, matrizSimulacao);
@@ -155,51 +155,62 @@ public class Controlador {
 		}
 	}
 
-	public void reduzTempo(int tempoSegundos) {
-		framePrincipal.reduzCronometro(tempoSegundos);
+	/**
+	 * Reduz a quantidade de turnos indicada pelo parâmetro.
+	 * 
+	 * @param turnos
+	 *            Número de turnos a serem decrementados.
+	 */
+	public void reduzTempo(int turnos) {
+		this.qtdeTurnosRestantes--;
+		framePrincipal.setLabelTempoValorText(Integer.toString(qtdeTurnosRestantes));
 	}
 
-	public void atualizaTempo(int tempo) {
-		framePrincipal.aumentarEnergia(tempo);
+	/**
+	 * Indica a quantidade de turnos para o fim da simulação.
+	 * 
+	 * @return a quantidade de turnos para o fim da simulação.
+	 */
+	public int getTurnosRestantes() {
+		return this.qtdeTurnosRestantes;
 	}
 
-	public int getEnergiaRestante() {
-		// return (Constantes.tempoPacMan -
-		// framePrincipal.getEnergiaRestante());
-		return (framePrincipal.getEnergiaRestante());
-	}
+	/**
+	 * Finaliza a simulação.
+	 */
+	public void finalizaSimulacao() {
 
-	public void isFimSimulacao() {
-
-		int cE1 = 0;
-		int cE2 = 0;
+		int energiaEquipe1 = 0;
+		int energiaEquipe2 = 0;
 		int geral = 0;
 		String ganhador = "";
 
-		if (framePrincipal.getEnergiaRestante() <= 0) {
-			this.pause();
+		threadSimulacao.allDone = true;
+		framePrincipal
+				.setLabelTempoValorText(Integer.toString(this.qtdeTurnosRestantes));
 
-			for (Agentes element : this.algoritmoLabirinto.equipes) {
+		for (Agentes agente : this.algoritmoLabirinto.equipes) {
 
-				System.out.println("Agente: "
-						+ element.getArquitetura().getNumeroAgente()
-						+ " Energia: "
-						+ element.getArquitetura().getEnergiaIndividual());
-				geral++;
-				if (geral <= 10)
-					cE1 += element.getArquitetura().getEnergiaIndividual();
-				else
-					cE2 += element.getArquitetura().getEnergiaIndividual();
-			}
-
-			if (cE1 > cE2)
-				ganhador = "Equipe 1 Ganhou!";
+			System.out.println("Agente: ["
+					+ agente.getArquitetura().getNumeroAgente() + "] Energia: "
+					+ agente.getArquitetura().getEnergiaIndividual());
+			geral++;
+			if (geral <= 10)
+				energiaEquipe2 += agente.getArquitetura()
+						.getEnergiaIndividual();
 			else
-				ganhador = "Equipe 2 Ganhou!";
-
-			JOptionPane.showMessageDialog(null, "Fim do Tempo! Equipe1: " + cE1
-					+ " Equipe2: " + cE2 + " \n" + ganhador);
-
+				energiaEquipe1 += agente.getArquitetura()
+						.getEnergiaIndividual();
 		}
+
+		if (energiaEquipe1 > energiaEquipe2)
+			ganhador = "Equipe 1 Ganhou!";
+		else
+			ganhador = "Equipe 2 Ganhou!";
+
+		JOptionPane.showMessageDialog(null, "Fim do Tempo! Equipe1: "
+				+ energiaEquipe1 + " Equipe2: " + energiaEquipe2 + " \n"
+				+ ganhador);
+
 	}
 }

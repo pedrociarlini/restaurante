@@ -6,6 +6,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Linha extends JPanel {
 	private JPanel panelIcon;
 
