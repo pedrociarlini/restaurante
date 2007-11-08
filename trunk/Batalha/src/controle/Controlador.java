@@ -1,5 +1,7 @@
 package controle;
 
+import java.util.Arrays;
+
 import gui.FramePrincipal;
 
 import javax.swing.JOptionPane;
@@ -56,7 +58,7 @@ public class Controlador {
 
 			// Carrega a matriz do arquivo
 			matrizSimulacaoInicial = InterpretadorArquivo.leArquivo(caminhoArquivo);
-			matrizSimulacao = matrizSimulacaoInicial;
+			matrizSimulacao = copiaArray(matrizSimulacaoInicial);
 
 			// Carrega a simulacao passando a matriz
 			framePrincipal.carregaSimulacao(matrizSimulacao);
@@ -123,7 +125,7 @@ public class Controlador {
 		// Volta ao ambiente inicial
 		if (matrizSimulacaoInicial != null) {
 			// Reinicia a simulação
-			matrizSimulacao = matrizSimulacaoInicial;
+			matrizSimulacao = copiaArray(matrizSimulacaoInicial);
 		}
 		// inicia o Algoritmo Labirinto
 		algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
@@ -132,6 +134,19 @@ public class Controlador {
 		threadSimulacao = new ThreadSimulacao(algoritmoLabirinto,
 				framePrincipal, matrizSimulacao);
 		threadSimulacao.start();
+	}
+	
+	/**
+	 * Cria uma cópia inteira dos elelmentos da matriz. 
+	 * @param source
+	 * @return
+	 */
+	private static int[][] copiaArray(int[][] source) {
+		int[][] result = new int[source.length][];
+		for (int i = 0; i < source.length; i++) {
+			result[i] = Arrays.copyOf(source[i], source[i].length);
+		}
+		return result;
 	}
 
 	/**

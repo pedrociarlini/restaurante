@@ -266,6 +266,9 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		return panelLeste;
 	}
 
+	/**
+	 * Executado quando alguma alção dos botões dessa janela são clicados.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		try {
@@ -328,8 +331,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	}
 
 	public void carregaSimulacao(int[][] matrizSimulacao) {
+		//painelLabirinto = null;
 		getPainelLabirinto().setGrid(matrizSimulacao);
 		getPanelCentro().removeAll();
+		getPanelCentro().add(getPainelLabirinto());
 		SwingUtilities.updateComponentTreeUI(getPanelCentro());
 		this.pack();
 	}
