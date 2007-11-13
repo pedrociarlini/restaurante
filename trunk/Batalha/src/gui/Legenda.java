@@ -38,7 +38,7 @@ public class Legenda extends JPanel {
 		this.add(panelDir);
 	}
 
-	public void addLinha(Color colorEsq, int height, int width, String descricao) {
+	public JLabel addLinha(Color colorEsq, int height, int width, String descricao) {
 		panelEsq.setLayout(new GridLayout(0, 1, 0, 7));
 		panelDir.setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -53,6 +53,7 @@ public class Legenda extends JPanel {
 		linha = new JPanel();
 		linha.add(linhaDireita);
 		panelDir.add(linha);
+		return linhaDireita;
 	}
 
 	public void addLinha(ImageIcon imageIcon, double sx, double sy,

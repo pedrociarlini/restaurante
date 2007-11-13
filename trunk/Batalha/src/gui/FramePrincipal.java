@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -20,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -70,11 +68,9 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 	// PainelLabirinto
 	private PainelLabirinto painelLabirinto;
 
-	private JPanel panelAgentes;
+	private JLabel labelEquipe1;
 
-	private JTextField equipe1Text;
-
-	private JTextField equipe2Text;
+	private JLabel labelEquipe2;
 
 	public FramePrincipal() {
 		// mudaLookAndFeel();
@@ -153,41 +149,8 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 			panelNorte = new JPanel(new BorderLayout());
 			panelNorte.add(getPanelNorteEsq(), BorderLayout.WEST);
 			panelNorte.add(getPanelNorteDir(), BorderLayout.EAST);
-			panelNorte.add(getPanelAgentes(), BorderLayout.SOUTH);
 		}
 		return panelNorte;
-	}
-
-	private JPanel getPanelAgentes() {
-		if (panelAgentes == null) {
-			panelAgentes = new JPanel();
-			panelAgentes.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 1));
-			panelAgentes.add(getEquipe1Text());
-			panelAgentes.add(getEquipe2Text());
-		}
-		return panelAgentes;
-	}
-
-	private JTextField getEquipe2Text() {
-		if (equipe2Text == null) {
-			equipe2Text = new JTextField();
-			equipe2Text.setPreferredSize(new Dimension(120, 20));
-			equipe2Text.setToolTipText("Dê um clique para escolher outro agente.");
-			equipe2Text.setEditable(false);
-			equipe2Text.addMouseListener(this);
-		}
-		return equipe2Text;
-	}
-
-	private JTextField getEquipe1Text() {
-		if (equipe1Text == null) {
-			equipe1Text = new JTextField();
-			equipe1Text.setPreferredSize(new Dimension(120, 20));
-			equipe1Text.setToolTipText("Dê um clique para escolher outro agente.");
-			equipe1Text.setEditable(false);
-			equipe1Text.addMouseListener(this);
-		}
-		return equipe1Text;
 	}
 
 	private JPanel getPanelNorteDir() {
@@ -294,8 +257,10 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		Legenda l = new Legenda("Legenda");
 		l.addLinha(Color.BLUE, 8, 8, "Parede");
 		l.addLinha(Color.YELLOW, 8, 8, "Energia");
-		l.addLinha(Color.RED, 8, 8, "Equipe 1");
-		l.addLinha(Color.WHITE, 8, 8, "Equipe 2");
+		labelEquipe1 = l.addLinha(Color.RED, 8, 8, "Equipe 1");
+		labelEquipe2 = l.addLinha(Color.WHITE, 8, 8, "Equipe 2");
+		labelEquipe1.addMouseListener(this);
+		labelEquipe2.addMouseListener(this);
 
 		getPanelLeste().add(l);
 	}
@@ -418,18 +383,23 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		new FramePrincipal();
 	}
 
-
+	/**
+	 * Utilizado para selecionar o algoritmo que será utilizado para a
+	 * simulação.
+	 */
 	public void mouseClicked(MouseEvent ev) {
-		if (ev.getSource() == getEquipe1Text()) {
+		if (ev.getSource() == labelEquipe1) {
+			// TODO Exibir o nome do agente, e não o nome da classe.
 			Class c = AgenteChooser.showJogadorDialog();
 			if (c != null) {
-				getEquipe1Text().setText(c.getSimpleName());				
+				labelEquipe1.setText(c.getSimpleName());
+				// TODO Enviar os agentes para a classe controladora e outras necessárias
 			}
 		}
-		else if (ev.getSource() == getEquipe2Text()) {
+		else if (ev.getSource() == labelEquipe2) {
 			Class c = AgenteChooser.showJogadorDialog();
 			if (c != null) {
-				getEquipe2Text().setText(c.getSimpleName());				
+				labelEquipe2.setText(c.getSimpleName());				
 			}			
 		}
 	}
