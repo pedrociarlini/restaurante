@@ -4,36 +4,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Implementa as seguintes funcionalidades:<br/> - Guadar um mapa relacionando
- * cada soldado ao seu nome na matriz.<br/> mapa = {NOME1 ->
- * <code>Programa</code>1, NOME2 -> <code>Programa</code>2,...} <br /> -
- * Guardar a última ação tomada.
- * <br /><br /><br />
- * Para tornar uma classe possível participante da simulação, deve-se 
- * implementar um bloco de inicialização estático registrando-se ao
- * gerenciador.<br />
- * O código exemplo está a seguir (pode ser copiado e colado);<br />
- * <pre>
- * static {
- *     
- * }
+ * Implementa as seguintes funcionalidades: <br>
+ *  - Guadar um mapa relacionando cada soldado ao seu nome na matriz.
+ *  <br>
+ *  <pre>
+ *  mapa = {
+ *  	NOME1 -> <code>Programa</code>1,
+ *  	NOME2 -> <code>Programa</code>2,
+ *  	...
+ *  }
  * </pre>
+ *  <br />
+ *  - Guardar a última ação tomada. <br />
+ * <br />
+ * <br />
+ * Para tornar uma classe possível participante da simulação, deve-se
+ * implementar um bloco de inicialização estático registrando-se ao gerenciador.<br />
+ * O código exemplo está a seguir (pode ser copiado e colado);<br />
+ * 
  */
 public abstract class ProgramaAbstract implements Programa {
 
+	static {
+		try {
+			Class.forName("algoritmo.Equipe1");
+			Class.forName("algoritmo.Equipe2");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 	/**
 	 * Guarda um mapa cuja chave é o nome do soldado (instância do agente) e o
-	 * valor é uma referência para o soldado.<br /><br />
+	 * valor é uma referência para o soldado.<br />
+	 * <br />
 	 * <code>agentes = { nome -> SOLDADO, nome2 -> SOLDADO2, ...}</code>
 	 */
 	private static Map<Integer, ProgramaAbstract> agentes = new HashMap<Integer, ProgramaAbstract>();
 
-	private int ultimaAcao;
+	private int ultimaAcao = -1;
 
 	/**
 	 * Nome do soldado.
 	 */
 	private int nome;
+
+	private SensoresEquipe sensor = new SensoresEquipe();
 
 	/**
 	 * Precisa ser chamado pelos seus filhos para poder funcionar.
@@ -64,5 +80,13 @@ public abstract class ProgramaAbstract implements Programa {
 
 	public static ProgramaAbstract getByNome(Integer nome) {
 		return agentes.get(nome);
+	}
+	
+	public SensoresEquipe getSensor() {
+		return sensor;
+	}
+
+	public void setSensor(SensoresEquipe sensor2) {
+		this.sensor = sensor2;
 	}
 }

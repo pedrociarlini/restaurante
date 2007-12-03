@@ -17,9 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ListDataListener;
 
+import model.AgenteVO;
+
 import algoritmo.ProgramaAbstract;
 import algoritmo.agentes.AgentesManager;
 
+@SuppressWarnings("unchecked")
 public class AgenteChooser extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +38,7 @@ public class AgenteChooser extends JDialog implements ActionListener {
 
 	private JButton buttonCancelar = null;
 
-	private Class jogadorVO;
+	private AgenteVO agenteVO;
 
 	/**
 	 * This is the default constructor
@@ -63,17 +66,6 @@ public class AgenteChooser extends JDialog implements ActionListener {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
-			GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
-			gridBagConstraints4.gridx = 0;
-			gridBagConstraints4.gridwidth = 2;
-			gridBagConstraints4.gridy = 2;
-			GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
-			gridBagConstraints3.gridx = 0;
-			gridBagConstraints3.gridwidth = 2;
-			gridBagConstraints3.gridy = 1;
-			GridBagConstraints gridBagConstraints = new GridBagConstraints();
-			gridBagConstraints.gridx = -1;
-			gridBagConstraints.gridy = -1;
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.gridx = 0;
 			gridBagConstraints2.gridwidth = 2;
@@ -157,23 +149,23 @@ public class AgenteChooser extends JDialog implements ActionListener {
 		return buttonCancelar;
 	}
 
-	public static Class showJogadorDialog() {
+	public static AgenteVO showJogadorDialog() {
 		AgenteChooser janela = new AgenteChooser(); // @ivj
 		janela.setModal(true);
 		janela.setVisible(true);
-		return janela.jogadorVO;
+		return janela.agenteVO;
 	} // @ijv
 
-	public static Class showJogadorDialog(ProgramaAbstract atual) {
+	public static AgenteVO showJogadorDialog(ProgramaAbstract atual) {
 		AgenteChooser janela = new AgenteChooser(); // @ivj
 		janela.setModal(true);
 		janela.setVisible(true);
-		return janela.jogadorVO;
+		return janela.agenteVO;
 	} // @ijv
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == getButtonOk()) {
-			this.jogadorVO = (Class) AgentesManager
+			this.agenteVO = (AgenteVO) AgentesManager
 					.getClassByName((String) getListAgentes().getSelectedItem());
 			dispose();
 		} else if (e.getSource() == getButtonCancelar()) {
@@ -187,7 +179,7 @@ public class AgenteChooser extends JDialog implements ActionListener {
 		int selectedIndex = 0;
 
 		public Object getSelectedItem() {
-			return elements.get(selectedIndex);
+			return (elements.size() > 0) ? elements.get(selectedIndex) : -1;
 		}
 
 		public void setSelectedItem(Object anItem) {

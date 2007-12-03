@@ -45,7 +45,7 @@ public class ThreadSimulacao extends Thread {
 				
 				ambiente.executa();
 				
-				framePrincipal.atualizaGrid(ambiente.equipes);
+				framePrincipal.atualizaGrid(ambiente.soldados);
 				framePrincipal.atualizaAmbiente(matrizSimulacao);
 				
 			} catch (InterruptedException e1) {

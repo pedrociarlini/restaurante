@@ -1,15 +1,26 @@
 package controle;
 
-import java.util.Arrays;
-
 import gui.FramePrincipal;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import model.AgenteVO;
 import algoritmo.Agentes;
 import algoritmo.Ambiente;
 
 public class Controlador {
+	
+	static {
+		try {
+			Class.forName("algoritmo.Equipe1");
+			Class.forName("algoritmo.Equipe2");
+		} catch (Exception e) {
+		}
+	}
 
 	// FramePrincipal
 	private FramePrincipal framePrincipal;
@@ -22,26 +33,22 @@ public class Controlador {
 	// ThreadSimulacao
 	private ThreadSimulacao threadSimulacao;
 
-	// Diz se a simulação está parada
-	private boolean stop = true;
+	private SimulacaoStatus status = SimulacaoStatus.STOPED;
 
 	// Matriz da Simulação
 	private int matrizSimulacao[][] = null;
 
 	private int[][] matrizSimulacaoInicial;
 
-	// Caminho do arquivo
-	private String caminhoArquivo = null;
-
 	// AlgoritmoLabirinto
 	private Ambiente algoritmoLabirinto;
+
+	// Equipes que participarão da simulação.
+	private List<AgenteVO> agentesEscolhidos = new ArrayList<AgenteVO>(2);
 
 	public Controlador(FramePrincipal framePrincipal) {
 		// FramePrincipal
 		this.framePrincipal = framePrincipal;
-
-		// AlgoritmoLabirinto
-		algoritmoLabirinto = new Ambiente(this, matrizSimulacao);
 	}
 
 	/**
@@ -52,10 +59,7 @@ public class Controlador {
 	 *            Caminho absoluto do arquivo.
 	 */
 	public void carregaSimulacao(String caminhoArquivo) {
-		if (stop) {
-			// Atualiza o caminho do arquivo
-			this.caminhoArquivo = caminhoArquivo;
-
+		if (status == SimulacaoStatus.STOPED) {
 			// Carrega a matriz do arquivo
 			matrizSimulacaoInicial = InterpretadorArquivo.leArquivo(caminhoArquivo);
 			matrizSimulacao = copiaArray(matrizSimulacaoInicial);
@@ -64,7 +68,7 @@ public class Controlador {
 			framePrincipal.carregaSimulacao(matrizSimulacao);
 		} else {
 			throw new RuntimeException(
-					"Não foi possível carregar o arquivo...\n"
+					"Não é possível carregar o arquivo: \n"
 							+ "Simulação em execução!");
 		}
 	}
@@ -77,23 +81,27 @@ public class Controlador {
 	public void play() throws Exception {
 		if (matrizSimulacao == null) {
 			throw new Exception("O ambiente não foi carregado!");
+		} else if (agentesEscolhidos.size() != 2 || agentesEscolhidos.get(0) == null || agentesEscolhidos.get(1) == null) {
+			throw new Exception("Os agentes não foram escolhidos!");			
 		} else {
-			if (stop) {
+			if (status == SimulacaoStatus.STOPED) {
 				// Inicia simulação
 				iniciaSimulacao();
-				stop = false;
 			} else {
 				// Simulação já foi iniciada e estava pausada
 				voltaSimulacao();
 			}
+			status = SimulacaoStatus.PLAYED;
 		}
 	}
 
 	public void pause() {
-		// Pausa thread Simulação
-		synchronized (threadSimulacao) {
-			threadSimulacao.interrupt();
-			threadSimulacao.pleaseWait = true;
+		if (status == SimulacaoStatus.PLAYED) {
+			synchronized (threadSimulacao) {
+				threadSimulacao.interrupt();
+				threadSimulacao.pleaseWait = true;
+				status = SimulacaoStatus.PAUSED;
+			}
 		}
 	}
 
@@ -104,13 +112,13 @@ public class Controlador {
 	public void stop() throws Exception {
 		// Stop all threads
 		// Pausa thread Simulação
-		if (!stop) {
-		threadSimulacao.interrupt();
-		finalizaSimulacao();
-		stop = true;
+		if (status != SimulacaoStatus.STOPED) {
+			threadSimulacao.interrupt();
+			finalizaSimulacao();
+			status = SimulacaoStatus.STOPED;
 
-		// AlgoritmoLabirinto
-		algoritmoLabirinto = null;
+			// AlgoritmoLabirinto
+			algoritmoLabirinto = null;
 		}
 		else {
 			throw new Exception("A simulação já está parada.");
@@ -195,37 +203,54 @@ public class Controlador {
 	 */
 	public void finalizaSimulacao() {
 
-		int energiaEquipe1 = 0;
-		int energiaEquipe2 = 0;
+		int[] energiaEquipes = new int[agentesEscolhidos.size()];
 		int geral = 0;
-		String ganhador = "";
+		int ganhador = -1;
 
 		threadSimulacao.allDone = true;
 		framePrincipal
 				.setLabelTempoValorText(Integer.toString(this.qtdeTurnosRestantes));
 
-		for (Agentes agente : this.algoritmoLabirinto.equipes) {
+		for (Agentes agente : this.algoritmoLabirinto.soldados) {
 
 			System.out.println("Agente: ["
 					+ agente.getArquitetura().getNumeroAgente() + "] Energia: "
 					+ agente.getArquitetura().getEnergiaIndividual());
 			geral++;
 			if (geral <= 10)
-				energiaEquipe2 += agente.getArquitetura()
+				energiaEquipes[1] += agente.getArquitetura()
 						.getEnergiaIndividual();
 			else
-				energiaEquipe1 += agente.getArquitetura()
+				energiaEquipes[0] += agente.getArquitetura()
 						.getEnergiaIndividual();
 		}
 
-		if (energiaEquipe1 > energiaEquipe2)
-			ganhador = "Equipe 1 Ganhou!";
+		if (energiaEquipes[0] > energiaEquipes[1])
+			ganhador = 0;
 		else
-			ganhador = "Equipe 2 Ganhou!";
+			ganhador = 1;
 
-		JOptionPane.showMessageDialog(null, "Fim do Tempo! Equipe1: "
-				+ energiaEquipe1 + " Equipe2: " + energiaEquipe2 + " \n"
-				+ ganhador);
+		JOptionPane.showMessageDialog(null, "Fim do Tempo!\n Equipe1: "
+				+ energiaEquipes[0] + "\nEquipe2: " + energiaEquipes[1] + " \n\n"
+				+ agentesEscolhidos.get(ganhador) + " ganhou!");
+	}
+	
+	public SimulacaoStatus getStatus() {
+		return status;
+	}
 
+	/**
+	 * Especifica quais os agentes que farão parte da simulação.
+	 * @param agenteEquipe1 Agente 1.
+	 * @param agenteEquipe2 Agente 2.
+	 */
+	public void selecionaEquipes(AgenteVO agenteEquipe1, AgenteVO agenteEquipe2) {
+		agentesEscolhidos.clear();
+		agentesEscolhidos.add(agenteEquipe1);
+		agentesEscolhidos.add(agenteEquipe2);
+	}
+	
+	public List<AgenteVO> getAgentesEscolhidos() {
+		return agentesEscolhidos;
 	}
 }

@@ -24,6 +24,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
+import model.AgenteVO;
+
 import algoritmo.Agentes;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -31,7 +33,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import controle.Controlador;
 
 @SuppressWarnings("serial")
-public class FramePrincipal extends JFrame implements ActionListener, MouseListener {
+public class FramePrincipal extends JFrame implements ActionListener,
+		MouseListener {
 
 	// Container
 	private Container container;
@@ -49,10 +52,6 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 	// JToolBar
 	private JToolBar toolBarControle;
 
-	// JLabel
-	private JLabel labelTempo;
-	private JLabel labelTempoValor;
-
 	// JButton
 	private JButton buttonPlay;
 	private JButton buttonPause;
@@ -68,14 +67,21 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 	// PainelLabirinto
 	private PainelLabirinto painelLabirinto;
 
+	// JLabel
+	private JLabel labelTempo;
+	private JLabel labelTempoValor;
 	private JLabel labelEquipe1;
-
 	private JLabel labelEquipe2;
+
+	private Legenda legenda;
+
+	private AgenteVO agenteEquipe1;
+
+	private AgenteVO agenteEquipe2;
 
 	public FramePrincipal() {
 		// mudaLookAndFeel();
 		initialize();
-		constroiFrame();
 		this.setVisible(true);
 	}
 
@@ -95,6 +101,7 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void mudaLookAndFeel() {
 		/* LookAndFeel - Windows */
 		try {
@@ -252,22 +259,37 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		return labelTempo;
 	}
 
-	private void constroiFrame() {
-		// adiciona componentes no panelLest
-		Legenda l = new Legenda("Legenda");
-		l.addLinha(Color.BLUE, 8, 8, "Parede");
-		l.addLinha(Color.YELLOW, 8, 8, "Energia");
-		labelEquipe1 = l.addLinha(Color.RED, 8, 8, "Equipe 1");
-		labelEquipe2 = l.addLinha(Color.WHITE, 8, 8, "Equipe 2");
-		labelEquipe1.addMouseListener(this);
-		labelEquipe2.addMouseListener(this);
+	private Legenda getLegenda() {
+		if (legenda == null) {
+			legenda = new Legenda("Legenda");
+			legenda.addLinha(Color.BLUE, 8, 8, "Parede");
+			legenda.addLinha(Color.YELLOW, 8, 8, "Energia");
+			getLabelEquipe1();
+			getLabelEquipe2();
+		}
+		return legenda;
+	}
 
-		getPanelLeste().add(l);
+	public JLabel getLabelEquipe1() {
+		if (labelEquipe1 == null) {
+			labelEquipe1 = getLegenda().addLinha(Color.RED, 8, 8, "<escolher equipe>");
+			labelEquipe1.addMouseListener(this);
+		}
+		return labelEquipe1;
+	}
+
+	public JLabel getLabelEquipe2() {
+		if (labelEquipe2 == null) {
+			labelEquipe2 = getLegenda().addLinha(Color.WHITE, 8, 8, "<escolher equipe>");
+			labelEquipe2.addMouseListener(this);
+		}
+		return labelEquipe2;
 	}
 
 	private JPanel getPanelLeste() {
 		if (panelLeste == null) {
 			panelLeste = new JPanel();
+			panelLeste.add(getLegenda());
 		}
 		return panelLeste;
 	}
@@ -279,6 +301,7 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		Object source = e.getSource();
 		try {
 			if (source == getButtonPlay()) {
+				controlador.selecionaEquipes(agenteEquipe1, agenteEquipe2);
 				controlador.play();
 			} else if (source == getButtonPause()) {
 				controlador.pause();
@@ -337,7 +360,7 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 	}
 
 	public void carregaSimulacao(int[][] matrizSimulacao) {
-		//painelLabirinto = null;
+		// painelLabirinto = null;
 		getPainelLabirinto().setGrid(matrizSimulacao);
 		getPanelCentro().removeAll();
 		getPanelCentro().add(getPainelLabirinto());
@@ -379,44 +402,42 @@ public class FramePrincipal extends JFrame implements ActionListener, MouseListe
 		getLabelTempoValor().setText(valor);
 	}
 
-	public static void main(String[] args) {
-		new FramePrincipal();
-	}
-
 	/**
-	 * Utilizado para selecionar o algoritmo que será utilizado para a
-	 * simulação.
+	 * Utilizado para selecionar a classe que contém o algoritmo que será
+	 * utilizado para a simulação.
+	 * @param ev Evento.
 	 */
+	@SuppressWarnings("unchecked")
 	public void mouseClicked(MouseEvent ev) {
-		if (ev.getSource() == labelEquipe1) {
+		if (ev.getSource() == getLabelEquipe1()) {
 			// TODO Exibir o nome do agente, e não o nome da classe.
-			Class c = AgenteChooser.showJogadorDialog();
-			if (c != null) {
-				labelEquipe1.setText(c.getSimpleName());
-				// TODO Enviar os agentes para a classe controladora e outras necessárias
+			agenteEquipe1 = AgenteChooser.showJogadorDialog();
+			if (agenteEquipe1 != null) {
+				getLabelEquipe1().setText(agenteEquipe1.toString());
+				// TODO Enviar os agentes para a classe controladora e outras
+				// necessárias
 			}
-		}
-		else if (ev.getSource() == labelEquipe2) {
-			Class c = AgenteChooser.showJogadorDialog();
-			if (c != null) {
-				labelEquipe2.setText(c.getSimpleName());				
-			}			
+		} else if (ev.getSource() == getLabelEquipe2()) {
+			agenteEquipe2 = AgenteChooser.showJogadorDialog();
+			if (agenteEquipe2 != null) {
+				getLabelEquipe2().setText(agenteEquipe2.toString());
+			}
 		}
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
-		
 	}
 
 	public void mouseExited(MouseEvent arg0) {
-		
 	}
 
 	public void mousePressed(MouseEvent arg0) {
-		
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
-		
+	}
+
+	public static void main(String[] args) {
+		new FramePrincipal();
 	}
 }

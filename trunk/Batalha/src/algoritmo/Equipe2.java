@@ -1,12 +1,13 @@
 package algoritmo;
 
+import model.AgenteVO;
 import algoritmo.agentes.AgentesManager;
 
 
-public class Equipe2 extends ProgramaEquipe2 {
+public class Equipe2 extends ProgramaAbstract {
 
 	static {
-		AgentesManager.registerClass("Equipe1", Equipe1.class);
+		AgentesManager.registerClass(new AgenteVO("Equipe2", Equipe2.class));
 	}
 
 	static int cont = 0;

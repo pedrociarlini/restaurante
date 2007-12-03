@@ -28,8 +28,14 @@ public class Arquitetura {
 
 	private int numeroAgente = -1;
 
+	/**
+	 * Simboliza o X onde o agente procurado se encontra.
+	 */
 	private int x = -1;
 
+	/**
+	 * Simboliza o Y onde o agente procurado se encontra.
+	 */
 	private int y = -1;
 
 	private String direcao;
@@ -38,7 +44,7 @@ public class Arquitetura {
 	private List<Agentes> equipes = new ArrayList<Agentes>();
 
 	public Arquitetura(int matrizSimulacao[][], int matrizOlfatoEquipe1[][],
-			Controlador controlador, int numeroAgente, Programa programa,
+			Controlador controlador, int numeroAgente, ProgramaAbstract programa,
 			List<Agentes> equipes, int matrizOlfatoEquipe2[][]) {
 
 		this.matrizSimulacao = matrizSimulacao;
@@ -51,7 +57,7 @@ public class Arquitetura {
 		this.equipes = equipes;
 		this.EnergiaIndividual = Constantes.energiaInicialEquipes;
 		this.direcao = Constantes.NORTE;
-
+		
 		getPosicaoAgente();
 	}
 
@@ -60,20 +66,19 @@ public class Arquitetura {
 
 		if (matrizSimulacao != null) {
 			// Procura o agente
-			forMaior: {
-				for (int i = 0; i < matrizSimulacao.length; i++) {
-					for (int j = 0; j < matrizSimulacao[0].length; j++) {
-						if (matrizSimulacao[i][j] == numeroAgente) {
+			
+			for (int i = 0; i < matrizSimulacao.length; i++) {
+				for (int j = 0; j < matrizSimulacao[0].length; j++) {
+					if (matrizSimulacao[i][j] == numeroAgente) {
 
-							// Atualiza a posição do agente
-							this.x = i;
-							this.y = j;
+						// Atualiza a posição do agente
+						this.x = i;
+						this.y = j;
 
-							achouAgente = true;
-
-							break forMaior;
-						}
+						achouAgente = true;
+						break;
 					}
+					if (achouAgente) break;
 				}
 			}
 
@@ -95,11 +100,10 @@ public class Arquitetura {
 	}
 
 	public void percebeEquipe2() {
-
-		SensoresEquipe2 sensor = new SensoresEquipe2();
+		SensoresEquipe sensor = new SensoresEquipe();
 
 		// 1 - Percepcao do Ambiente de Acordo com sua Visao.
-		sensor.setVisaoIdentificacao(this.percebeAmbienteEquipe2());
+		sensor.setVisaoIdentificacao(this.percebeAmbienteEquipe());
 
 		// Posicao Atuao do Agente.
 		sensor.setPosicao(this.getPosicao());
@@ -116,19 +120,18 @@ public class Arquitetura {
 		sensor.setEnergiaEquipe(this.percebeEnergiaOponenteEquipe1());
 
 		// 4 - Olfato Equipe 2 ok
-		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe2());
-		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe1());
+		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe1));
+		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe2));
 
-		((ProgramaEquipe2) programa).sensor = sensor;
-
+		((ProgramaAbstract) programa).setSensor(sensor);
 	}
 
 	public void percebeEquipe1() {
 
-		SensoresEquipe1 sensor = new SensoresEquipe1();
+		SensoresEquipe sensor = new SensoresEquipe();
 
 		// 1 - Percepcao do Ambiente de Acordo com sua Visao.OK
-		sensor.setVisaoIdentificacao(this.percebeAmbienteEquipe2());
+		sensor.setVisaoIdentificacao(this.percebeAmbienteEquipe());
 
 		// Posicao Atuao do Agente.
 		sensor.setPosicao(this.getPosicao());
@@ -145,16 +148,16 @@ public class Arquitetura {
 		sensor.setEnergiaEquipe(this.percebeEnergiaOponenteEquipe2());
 
 		// 4 - Olfato Equipe 1
-		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe1());
-		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe2());
+		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe2));
+		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe1));
 
-		((ProgramaEquipe1) programa).sensor = sensor;
+		((ProgramaAbstract) programa).setSensor(sensor);
 	}
 
-	public int[] percebeAmbienteEquipe2() {
+	public int[] percebeAmbienteEquipe() {
 
 		int[] ambiente = new int[24];
-
+		
 		if ((x == 0) || (y == 0))
 			ambiente[6] = Constantes.foraAmbiene;
 		else
@@ -350,53 +353,7 @@ public class Arquitetura {
 		return ambiente;
 	}
 
-	public int[] percebeAmbienteEquipe1() {
-		int[] ambiente = new int[8];
-
-		if ((x == 0) || (y == 0))
-			ambiente[0] = Constantes.foraAmbiene;
-		else
-			ambiente[0] = matrizSimulacao[x - 1][y - 1];
-
-		if ((y == 0))
-			ambiente[1] = Constantes.foraAmbiene;
-		else
-			ambiente[1] = matrizSimulacao[x][y - 1];
-
-		if ((x == 29) || (y == 0))
-			ambiente[2] = Constantes.foraAmbiene;
-		else
-			ambiente[2] = matrizSimulacao[x + 1][y - 1];
-
-		if ((x == 0))
-			ambiente[3] = Constantes.foraAmbiene;
-		else
-			ambiente[3] = matrizSimulacao[x - 1][y];
-
-		if ((x == 29))
-			ambiente[4] = Constantes.foraAmbiene;
-		else
-			ambiente[4] = matrizSimulacao[x + 1][y];
-
-		if ((x == 0) || (y == 29))
-			ambiente[5] = Constantes.foraAmbiene;
-		else
-			ambiente[5] = matrizSimulacao[x - 1][y + 1];
-
-		if ((y == 29))
-			ambiente[6] = Constantes.foraAmbiene;
-		else
-			ambiente[6] = matrizSimulacao[x][y + 1];
-
-		if ((x == 29) || (y == 29))
-			ambiente[7] = Constantes.foraAmbiene;
-		else
-			ambiente[7] = matrizSimulacao[x + 1][y + 1];
-
-		return ambiente;
-	}
-
-	public int[] percebeAmbienteOlfatoEquipe1() {
+	public int[] percebeAmbienteOlfatoEquipe(int[][] matrizOlfatoEquipe1) {
 		int[] ambienteOlfato = new int[8];
 
 		if ((x == 0) || (y == 0))
@@ -438,53 +395,6 @@ public class Arquitetura {
 			ambienteOlfato[7] = Constantes.foraAmbiene;
 		else
 			ambienteOlfato[7] = matrizOlfatoEquipe1[x + 1][y + 1];
-
-		return ambienteOlfato;
-	}
-
-	public int[] percebeAmbienteOlfatoEquipe2() {
-
-		int[] ambienteOlfato = new int[8];
-
-		if ((x == 0) || (y == 0))
-			ambienteOlfato[0] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[0] = matrizOlfatoEquipe2[x - 1][y - 1];
-
-		if ((y == 0))
-			ambienteOlfato[1] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[1] = matrizOlfatoEquipe2[x][y - 1];
-
-		if ((x == 29) || (y == 0))
-			ambienteOlfato[2] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[2] = matrizOlfatoEquipe2[x + 1][y - 1];
-
-		if ((x == 0))
-			ambienteOlfato[3] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[3] = matrizOlfatoEquipe2[x - 1][y];
-
-		if ((x == 29))
-			ambienteOlfato[4] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[4] = matrizOlfatoEquipe2[x + 1][y];
-
-		if ((x == 0) || (y == 29))
-			ambienteOlfato[5] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[5] = matrizOlfatoEquipe2[x - 1][y + 1];
-
-		if ((y == 29))
-			ambienteOlfato[6] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[6] = matrizOlfatoEquipe2[x][y + 1];
-
-		if ((x == 29) || (y == 29))
-			ambienteOlfato[7] = Constantes.foraAmbiene;
-		else
-			ambienteOlfato[7] = matrizOlfatoEquipe2[x + 1][y + 1];
 
 		return ambienteOlfato;
 	}

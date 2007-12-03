@@ -2,7 +2,7 @@ package algoritmo;
 
 import java.awt.Point;
 
-public class SensoresEquipe2 {
+public class SensoresEquipe {
 
 	private int visaoIdentificacao[];//identificacao
 	private int ambienteOlfatoEquipe[];
@@ -16,7 +16,7 @@ public class SensoresEquipe2 {
 	
 	private Point posicao;
 	private int nivelEnergia;
-	
+
 	public int[] getAmbienteOlfatoEquipe() {
 		return ambienteOlfatoEquipe;
 	}
@@ -71,5 +71,6 @@ public class SensoresEquipe2 {
 	public void setVisaoIdentificacao(int[] visaoIdentificacao) {
 		this.visaoIdentificacao = visaoIdentificacao;
 	}
+
 
 }

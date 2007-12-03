@@ -149,10 +149,7 @@ public class PainelLabirinto extends JPanel {
 	 * @param nome
 	 */
 	private void desenhaSoldadoEquipe1(Graphics g, int nome, int i, int j) {
-		g.setColor(getCor(2));
-		g.fillRect(i * pixel, j * pixel, pixel, pixel);
-		int direcao = ProgramaAbstract.getByNome(nome).getUltimaAcao();
-		desenharFrente(g, i, j, direcao);
+		desenharSoldado(g, nome, i, j, getCor(2));
 	}
 
 	/**
@@ -161,9 +158,15 @@ public class PainelLabirinto extends JPanel {
 	 * @param nome
 	 */
 	private void desenhaSoldadoEquipe2(Graphics g, int nome, int i, int j) {
-		g.setColor(getCor(5));
+		desenharSoldado(g, nome, i, j, getCor(5));
+	}
+	
+
+	private void desenharSoldado(Graphics g, int nome, int i, int j, Color cor) {
+		g.setColor(cor);
 		g.fillRect(i * pixel, j * pixel, pixel, pixel);
-		int direcao = ProgramaAbstract.getByNome(nome).getUltimaAcao();
+		ProgramaAbstract soldado = ProgramaAbstract.getByNome(nome);
+		int direcao = (soldado == null)? -1: soldado.getUltimaAcao();
 		desenharFrente(g, i, j, direcao);
 	}
 
@@ -180,21 +183,22 @@ public class PainelLabirinto extends JPanel {
 	 *            Direção.
 	 */
 	private void desenharFrente(Graphics g, int i, int j, int direcao) {
-		Color temp = g.getColor();
-		g.setColor(Color.BLACK);
-		if(direcao == 1) {
-			g.drawRect(i * pixel + (pixel/2), j * pixel, 2, pixel/2);			
+		if (direcao != -1) {
+			Color temp = g.getColor();
+			g.setColor(Color.BLACK);
+			if (direcao == 1) {
+				g.drawRect(i * pixel + (pixel / 2), j * pixel, 2, pixel / 2);
+			} else if (direcao == 2) {
+				g.drawRect(i * pixel + (pixel / 2), j * pixel + (pixel / 2), 2,
+						pixel / 2);
+			} else if (direcao == 3) {
+				g.drawRect(i * pixel + (pixel / 2), j * pixel + (pixel / 2),
+						pixel / 2, 2);
+			} else if (direcao == 4) {
+				g.drawRect(i * pixel, j * pixel + (pixel / 2), pixel / 2, 2);
+			}
+			g.setColor(temp);
 		}
-		else if (direcao == 2) {
-			g.drawRect(i * pixel + (pixel/2), j * pixel + (pixel/2), 2, pixel/2);			
-		}
-		else if (direcao == 3) {
-			g.drawRect(i * pixel + (pixel/2), j * pixel + (pixel/2), pixel/2, 2);			
-		}
-		else if (direcao == 4) {
-			g.drawRect(i * pixel, j * pixel + (pixel/2), pixel/2, 2);			
-		}
-		g.setColor(temp);
 	}
 
 	/**

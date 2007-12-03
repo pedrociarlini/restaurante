@@ -1,10 +1,10 @@
 package algoritmo;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import model.AgenteVO;
 import controle.Controlador;
 
 public class Ambiente {
@@ -18,14 +18,7 @@ public class Ambiente {
 	int matrizOlfatoEquipe1[][] = null;
 	int matrizOlfatoEquipe2[][] = null;
 
-	public List<Agentes> equipes = new ArrayList<Agentes>();
-
-	// Cria os agentes
-	// Equipe 2
-	private Map<String, Agentes> equipe2 = new HashMap<String, Agentes>();
-
-	// Equipe 1
-	private Map<String, Agentes> equipe1 = new HashMap<String, Agentes>();
+	public List<Agentes> soldados = new ArrayList<Agentes>();
 
 	/**
 	 * Quantidade de linhas do cenário.
@@ -68,41 +61,46 @@ public class Ambiente {
 		criaAgentes();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void criaAgentes() {
 		Agentes agenteTemp;
 
-		// TODO implementar Busca do agente escolhido pelo classloader.
-		// Equipe2
-		Equipe2 soldado2;
-		for (int i = 0; i < 10; i++) {
-			soldado2 = new Equipe2(200 + (i * 10));
-			agenteTemp = new Agentes(new Arquitetura(matrizSimulacao,
-					matrizOlfatoEquipe1, controlador, soldado2.getNome(),
-					soldado2, this.equipes, matrizOlfatoEquipe2), soldado2);
-			equipe2.put("equipe2_" + (i + 1), agenteTemp);
-			this.equipes.add(agenteTemp);
-		}
-
-		// Equipe1
-		Equipe1 soldado1;
-		for (int i = 0; i < 10; i++) {
-			soldado1 = new Equipe1(100 + (i * 10));
-			agenteTemp = new Agentes(new Arquitetura(matrizSimulacao,
-					matrizOlfatoEquipe1, controlador, soldado1.getNome(),
-					soldado1, this.equipes, matrizOlfatoEquipe2), soldado1);
-			equipe1.put("equipe1_" + (i + 1), agenteTemp);
-			this.equipes.add(agenteTemp);
+		ProgramaAbstract soldado;
+		Constructor constr;
+		int centenaSoldado = 0;
+		try {
+			for (AgenteVO agente : controlador.getAgentesEscolhidos()) {
+				centenaSoldado++;
+				constr = agente.getClasse().getConstructor(Integer.TYPE);
+				for (int i = 0; i < 10; i++) {
+					// soldado2 = new Equipe2(200 + (i * 10));
+					soldado = (ProgramaAbstract) constr
+							.newInstance(centenaSoldado * 100 + (i * 10));
+					Arquitetura arq = new Arquitetura(matrizSimulacao,
+							matrizOlfatoEquipe1, controlador,
+							soldado.getNome(), soldado, this.soldados,
+							matrizOlfatoEquipe2);
+					agenteTemp = new Agentes(arq, soldado);
+					arq.percebeEquipe1();
+					this.soldados.add(agenteTemp);
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Erro durante a criação dos agentes;");
+			e.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void executa() {
-		for (Agentes soldado : equipes) {
+		for (Agentes soldado : soldados) {
 			int acaoEscolhida = soldado.getPrograma().acao();
 			if (acaoEscolhida != 0) {
 				((ProgramaAbstract) soldado.getPrograma())
 						.setUltimaAcao(acaoEscolhida);
 			}
-			if (soldado.getPrograma() instanceof Equipe1) {
+			Class equipe1 = controlador.getAgentesEscolhidos().get(0).getClasse();
+			if (soldado.getPrograma().getClass().equals(equipe1)) {
 				if (soldado.getArquitetura().getEnergiaIndividual() > 0) {
 					soldado.getArquitetura().percebeEquipe1();
 					soldado.getArquitetura().moverEquipe1(acaoEscolhida);
