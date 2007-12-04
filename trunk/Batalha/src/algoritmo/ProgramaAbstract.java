@@ -31,6 +31,7 @@ public abstract class ProgramaAbstract implements Programa {
 			Class.forName("algoritmo.Equipe2");
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	
@@ -88,5 +89,10 @@ public abstract class ProgramaAbstract implements Programa {
 
 	public void setSensor(SensoresEquipe sensor2) {
 		this.sensor = sensor2;
+	}
+	
+	@Override
+	public String toString() {
+		return "Soldado (" + this.getClass().getSimpleName() + "): " + getNome();
 	}
 }

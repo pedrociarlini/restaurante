@@ -4,13 +4,16 @@ import gui.FramePrincipal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import model.AgenteVO;
 import algoritmo.Agentes;
 import algoritmo.Ambiente;
+import algoritmo.ProgramaAbstract;
 
 public class Controlador {
 	
@@ -21,6 +24,9 @@ public class Controlador {
 		} catch (Exception e) {
 		}
 	}
+	
+	public static final String ENERGIA_EQUIPE_1 = "EE1";
+	public static final String ENERGIA_EQUIPE_2 = "EE2";
 
 	// FramePrincipal
 	private FramePrincipal framePrincipal;
@@ -46,9 +52,29 @@ public class Controlador {
 	// Equipes que participarão da simulação.
 	private List<AgenteVO> agentesEscolhidos = new ArrayList<AgenteVO>(2);
 
+	private boolean isVisual;
+
+	/**
+	 * Usado para retornar o resultado para quem quiser avaliar.
+	 */
+	private Map<String, Double> resultado = new HashMap<String, Double>(2);
+
+	/**
+	 * Inicia o controlador no modo visual.
+	 * @param framePrincipal Janela com todas as configurações.
+	 */
 	public Controlador(FramePrincipal framePrincipal) {
+		isVisual = true;
 		// FramePrincipal
 		this.framePrincipal = framePrincipal;
+		isVisual = true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Controlador(AgenteVO equipe1, AgenteVO equipe2, String caminhoArquivo) {
+		isVisual = false;
+		carregaSimulacao(caminhoArquivo);
+		selecionaEquipes(equipe1, equipe2);
 	}
 
 	/**
@@ -65,7 +91,8 @@ public class Controlador {
 			matrizSimulacao = copiaArray(matrizSimulacaoInicial);
 
 			// Carrega a simulacao passando a matriz
-			framePrincipal.carregaSimulacao(matrizSimulacao);
+			if (isVisual)
+				framePrincipal.carregaSimulacao(matrizSimulacao);
 		} else {
 			throw new RuntimeException(
 					"Não é possível carregar o arquivo: \n"
@@ -114,8 +141,9 @@ public class Controlador {
 		// Pausa thread Simulação
 		if (status != SimulacaoStatus.STOPED) {
 			threadSimulacao.interrupt();
-			finalizaSimulacao();
 			status = SimulacaoStatus.STOPED;
+
+			finalizaSimulacao();
 
 			// AlgoritmoLabirinto
 			algoritmoLabirinto = null;
@@ -140,7 +168,7 @@ public class Controlador {
 		this.qtdeTurnosRestantes = this.qtdeTurnos;
 		// Inicia thread Simulação
 		threadSimulacao = new ThreadSimulacao(algoritmoLabirinto,
-				framePrincipal, matrizSimulacao);
+				this, matrizSimulacao);
 		threadSimulacao.start();
 	}
 	
@@ -186,7 +214,8 @@ public class Controlador {
 	 */
 	public void reduzTempo(int turnos) {
 		this.qtdeTurnosRestantes--;
-		framePrincipal.setLabelTempoValorText(Integer.toString(qtdeTurnosRestantes));
+		if (isVisual)
+			framePrincipal.setLabelTempoValorText(Integer.toString(qtdeTurnosRestantes));
 	}
 
 	/**
@@ -201,23 +230,22 @@ public class Controlador {
 	/**
 	 * Finaliza a simulação.
 	 */
-	public void finalizaSimulacao() {
+	private void finalizaSimulacao() {
 
 		int[] energiaEquipes = new int[agentesEscolhidos.size()];
-		int geral = 0;
 		int ganhador = -1;
 
 		threadSimulacao.allDone = true;
-		framePrincipal
-				.setLabelTempoValorText(Integer.toString(this.qtdeTurnosRestantes));
+		if (isVisual)
+			framePrincipal.setLabelTempoValorText(
+					Integer.toString(this.qtdeTurnosRestantes));
 
 		for (Agentes agente : this.algoritmoLabirinto.soldados) {
 
 			System.out.println("Agente: ["
 					+ agente.getArquitetura().getNumeroAgente() + "] Energia: "
 					+ agente.getArquitetura().getEnergiaIndividual());
-			geral++;
-			if (geral <= 10)
+			if (((ProgramaAbstract)agente.getPrograma()).getNome() >= 200)
 				energiaEquipes[1] += agente.getArquitetura()
 						.getEnergiaIndividual();
 			else
@@ -229,10 +257,15 @@ public class Controlador {
 			ganhador = 0;
 		else
 			ganhador = 1;
+		
+		// Usado para caso de treinamento do agente
+		resultado.put(ENERGIA_EQUIPE_1, Double.valueOf(energiaEquipes[0]));
+		resultado.put(ENERGIA_EQUIPE_2, Double.valueOf(energiaEquipes[1]));
 
-		JOptionPane.showMessageDialog(null, "Fim do Tempo!\n Equipe1: "
-				+ energiaEquipes[0] + "\nEquipe2: " + energiaEquipes[1] + " \n\n"
-				+ agentesEscolhidos.get(ganhador) + " ganhou!");
+		if (isVisual)
+			JOptionPane.showMessageDialog(null, "Fim do Tempo!\n Equipe1: "
+					+ energiaEquipes[0] + "\nEquipe2: " + energiaEquipes[1]
+					+ " \n\n" + agentesEscolhidos.get(ganhador) + " ganhou!");
 	}
 	
 	public SimulacaoStatus getStatus() {
@@ -252,5 +285,29 @@ public class Controlador {
 	
 	public List<AgenteVO> getAgentesEscolhidos() {
 		return agentesEscolhidos;
+	}
+
+	public boolean isVisual() {
+		return isVisual;
+	}
+
+	public void atualizaVisual(List<Agentes> soldados, int[][] matrizSimulacao2) {
+		framePrincipal.atualizaGrid(soldados);
+		framePrincipal.atualizaAmbiente(matrizSimulacao2);	
+	}
+	
+	public void joinSimulacao() throws InterruptedException {
+		threadSimulacao.join();
+	}
+
+	/**
+	 * Retorna o valor do resultado passado por parâmetro.<br>
+	 * Pode ser uma das constantes:<br>
+	 * ENERGIA_EQUIPE_1, ENERGIA_EQUIPE_2
+	 * @param nomeDado
+	 * @return
+	 */
+	public Double getResultado(String nomeDado) {
+		return resultado.get(nomeDado);
 	}
 }

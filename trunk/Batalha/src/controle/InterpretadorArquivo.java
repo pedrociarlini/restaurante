@@ -1,7 +1,6 @@
 package controle;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
@@ -18,7 +17,6 @@ public class InterpretadorArquivo {
 	 *         paredes.
 	 */
 	public static int[][] leArquivo(String caminhoArquivo) {
-
 		int[][] matrizSimulacao = null;
 
 		// Vector de array de String (que é uma linha da matriz)
@@ -35,10 +33,8 @@ public class InterpretadorArquivo {
 				vectorLinhaMatriz.add(linhaMatriz);
 				line = br.readLine();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		// Monta a matriz da simulação;

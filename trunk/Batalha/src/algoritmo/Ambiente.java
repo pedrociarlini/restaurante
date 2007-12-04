@@ -2,6 +2,7 @@ package algoritmo;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.AgenteVO;
@@ -81,7 +82,12 @@ public class Ambiente {
 							soldado.getNome(), soldado, this.soldados,
 							matrizOlfatoEquipe2);
 					agenteTemp = new Agentes(arq, soldado);
-					arq.percebeEquipe1();
+					if (centenaSoldado == 1) {
+						arq.percebeEquipe1();
+					}
+					else {
+						arq.percebeEquipe2();						
+					}
 					this.soldados.add(agenteTemp);
 				}
 			}
@@ -93,14 +99,16 @@ public class Ambiente {
 
 	@SuppressWarnings("unchecked")
 	public void executa() {
+		int nomeTemp;
+		int acaoEscolhida;
 		for (Agentes soldado : soldados) {
-			int acaoEscolhida = soldado.getPrograma().acao();
+			acaoEscolhida = soldado.getPrograma().acao();
 			if (acaoEscolhida != 0) {
 				((ProgramaAbstract) soldado.getPrograma())
 						.setUltimaAcao(acaoEscolhida);
 			}
-			Class equipe1 = controlador.getAgentesEscolhidos().get(0).getClasse();
-			if (soldado.getPrograma().getClass().equals(equipe1)) {
+			nomeTemp = ((ProgramaAbstract) soldado.getPrograma()).getNome();
+			if (isEquipe1(nomeTemp)) {
 				if (soldado.getArquitetura().getEnergiaIndividual() > 0) {
 					soldado.getArquitetura().percebeEquipe1();
 					soldado.getArquitetura().moverEquipe1(acaoEscolhida);
@@ -120,11 +128,22 @@ public class Ambiente {
 		 */
 		this.decrementaFeromonio();
 		if (controlador.getTurnosRestantes() <= 0) {
-			controlador.finalizaSimulacao();
+			try {
+				controlador.stop();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		// this.imprimeFeromonio();
 	}
 
+	private boolean isEquipe1(int nomeTemp) {
+		return Arrays.binarySearch(Arquitetura.idsEquipe1, nomeTemp) >= 0;
+	}
+
+	private boolean isEquipe2(int nomeTemp) {
+		return Arrays.binarySearch(Arquitetura.idsEquipe2, nomeTemp) >= 0;
+	}
 	private void decrementaFeromonio() {
 
 		// Equipe 1

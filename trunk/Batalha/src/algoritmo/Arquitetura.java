@@ -43,6 +43,11 @@ public class Arquitetura {
 
 	private List<Agentes> equipes = new ArrayList<Agentes>();
 
+	public static int[] idsEquipe1 = new int[] { 100, 110, 120, 130, 140, 150, 160,
+			170, 180, 190 };
+	public static int[] idsEquipe2 = new int[] { 200, 210, 220, 230, 240, 250, 260,
+			270, 280, 290 };
+
 	public Arquitetura(int matrizSimulacao[][], int matrizOlfatoEquipe1[][],
 			Controlador controlador, int numeroAgente, ProgramaAbstract programa,
 			List<Agentes> equipes, int matrizOlfatoEquipe2[][]) {
@@ -67,8 +72,8 @@ public class Arquitetura {
 		if (matrizSimulacao != null) {
 			// Procura o agente
 			
-			for (int i = 0; i < matrizSimulacao.length; i++) {
-				for (int j = 0; j < matrizSimulacao[0].length; j++) {
+			for (int i = 0; i < matrizSimulacao.length && !achouAgente; i++) {
+				for (int j = 0; j < matrizSimulacao[0].length && !achouAgente; j++) {
 					if (matrizSimulacao[i][j] == numeroAgente) {
 
 						// Atualiza a posição do agente
@@ -76,7 +81,7 @@ public class Arquitetura {
 						this.y = j;
 
 						achouAgente = true;
-						break;
+						//break;
 					}
 					if (achouAgente) break;
 				}
@@ -99,6 +104,9 @@ public class Arquitetura {
 		return controlador.getTurnosRestantes();
 	}
 
+	/**
+	 * Gera as percepções do sensor da equipe 2.
+	 */
 	public void percebeEquipe2() {
 		SensoresEquipe sensor = new SensoresEquipe();
 
@@ -122,10 +130,15 @@ public class Arquitetura {
 		// 4 - Olfato Equipe 2 ok
 		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe1));
 		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe2));
+		
+		sensor.setInimigos(idsEquipe1);
 
 		((ProgramaAbstract) programa).setSensor(sensor);
 	}
 
+	/**
+	 * Gera as percepções do sensor da equipe 1.
+	 */
 	public void percebeEquipe1() {
 
 		SensoresEquipe sensor = new SensoresEquipe();
@@ -150,6 +163,8 @@ public class Arquitetura {
 		// 4 - Olfato Equipe 1
 		sensor.setAmbienteOlfatoOponente(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe2));
 		sensor.setAmbienteOlfatoEquipe(this.percebeAmbienteOlfatoEquipe(matrizOlfatoEquipe1));
+		
+		sensor.setInimigos(idsEquipe2);
 
 		((ProgramaAbstract) programa).setSensor(sensor);
 	}
@@ -1772,6 +1787,10 @@ public class Arquitetura {
 		return ambiente;
 	}
 
+	/**
+	 * Retorna as direções dos oponentes da equipe2.
+	 * @return
+	 */
 	public int[] percebeDirecaoOponenteEquipe2() {
 
 		int[] ambiente = new int[24];

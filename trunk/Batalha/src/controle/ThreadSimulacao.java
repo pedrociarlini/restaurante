@@ -1,12 +1,8 @@
 package controle;
 
-import gui.FramePrincipal;
 import algoritmo.Ambiente;
 
 public class ThreadSimulacao extends Thread {
-
-	// FramePrincipal
-	private FramePrincipal framePrincipal;
 
 	/**
 	 * Indica se o ambiente está pausado.
@@ -26,11 +22,13 @@ public class ThreadSimulacao extends Thread {
 	// AlgoritmoLabirinto
 	private Ambiente ambiente;
 
+	private Controlador controlador;
+
 	public ThreadSimulacao(Ambiente algoritmoLabirinto,
-			FramePrincipal framePrincipal, int matrizSimulacao[][]) {
+			Controlador controlador, int matrizSimulacao[][]) {
 		setName(this.getClass().getSimpleName());
 		this.ambiente = algoritmoLabirinto;
-		this.framePrincipal = framePrincipal;
+		this.controlador = controlador;
 		this.matrizSimulacao = matrizSimulacao;
 		tempoSimulação = 100;
 	}
@@ -40,16 +38,16 @@ public class ThreadSimulacao extends Thread {
 		while (true) {
 
 			try {
-				Thread.sleep(tempoSimulação);
-
+				if (controlador.isVisual())
+					Thread.sleep(tempoSimulação);
 				
 				ambiente.executa();
 				
-				framePrincipal.atualizaGrid(ambiente.soldados);
-				framePrincipal.atualizaAmbiente(matrizSimulacao);
+				if (controlador.isVisual())
+					controlador.atualizaVisual(ambiente.soldados, matrizSimulacao);
 				
 			} catch (InterruptedException e1) {
-				// e1.printStackTrace();
+				e1.printStackTrace();
 			}
 
 			// Check if should wait
@@ -74,10 +72,8 @@ public class ThreadSimulacao extends Thread {
 				// return;
 				break;
 			}
-
 		}
 
-		System.out.println("Thread Simulação Morreu");
+		System.out.println("Thread simulação finalizou");
 	}
-
 }

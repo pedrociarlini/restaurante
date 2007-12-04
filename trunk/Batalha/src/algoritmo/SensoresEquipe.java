@@ -16,6 +16,7 @@ public class SensoresEquipe {
 	
 	private Point posicao;
 	private int nivelEnergia;
+	private int[] inimigos;
 
 	public int[] getAmbienteOlfatoEquipe() {
 		return ambienteOlfatoEquipe;
@@ -71,6 +72,12 @@ public class SensoresEquipe {
 	public void setVisaoIdentificacao(int[] visaoIdentificacao) {
 		this.visaoIdentificacao = visaoIdentificacao;
 	}
+	
+	public void setInimigos(int[] is) {
+		inimigos = is;
+	}
 
-
+	public int[] getInimigos() {
+		return inimigos;
+	}
 }
