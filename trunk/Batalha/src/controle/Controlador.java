@@ -242,9 +242,10 @@ public class Controlador {
 
 		for (Agentes agente : this.algoritmoLabirinto.soldados) {
 
-			System.out.println("Agente: ["
-					+ agente.getArquitetura().getNumeroAgente() + "] Energia: "
-					+ agente.getArquitetura().getEnergiaIndividual());
+			if (isVisual)
+				System.out.println("Agente: ["
+						+ agente.getArquitetura().getNumeroAgente() + "] Energia: "
+						+ agente.getArquitetura().getEnergiaIndividual());
 			if (((ProgramaAbstract)agente.getPrograma()).getNome() >= 200)
 				energiaEquipes[1] += agente.getArquitetura()
 						.getEnergiaIndividual();

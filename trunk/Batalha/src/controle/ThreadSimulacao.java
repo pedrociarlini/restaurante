@@ -73,7 +73,5 @@ public class ThreadSimulacao extends Thread {
 				break;
 			}
 		}
-
-		System.out.println("Thread simulação finalizou");
 	}
 }
