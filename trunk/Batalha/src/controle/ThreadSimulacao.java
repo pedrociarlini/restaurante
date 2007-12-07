@@ -14,6 +14,9 @@ public class ThreadSimulacao extends Thread {
 	 */
 	public boolean allDone = false;
 
+	/**
+	 * Indica a quantidade de milisecondos entre a execução de $um turno e outro.
+	 */
 	private int tempoSimulação;
 
 	// Matriz da simulação
@@ -27,6 +30,7 @@ public class ThreadSimulacao extends Thread {
 	public ThreadSimulacao(Ambiente algoritmoLabirinto,
 			Controlador controlador, int matrizSimulacao[][]) {
 		setName(this.getClass().getSimpleName());
+		setPriority(NORM_PRIORITY);
 		this.ambiente = algoritmoLabirinto;
 		this.controlador = controlador;
 		this.matrizSimulacao = matrizSimulacao;

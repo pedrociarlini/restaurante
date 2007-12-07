@@ -30,7 +30,6 @@ public abstract class ProgramaAbstract implements Programa {
 			Class.forName("algoritmo.Equipe1");
 			Class.forName("algoritmo.Equipe2");
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
