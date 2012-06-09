@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" x="78" y="70" text="Gerenciar Pedidos" measuredWidth="400" measuredHeight="300"/>
+  <widgets xsi:type="model:VSplitter" id="3" x="176" y="89" height="277" measuredWidth="11" measuredHeight="277"/>
+  <widgets xsi:type="model:Label" id="4" x="88" y="89" text="Mesas abertas" measuredWidth="88" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="5" x="78" y="111" measuredWidth="100" measuredHeight="6"/>
+  <widgets xsi:type="model:Text" id="6" x="78" y="152" text="A paragraph of *text*.&#xA;* A bullet&#xA;* List&#xA;## Is created&#xA;## Like this" measuredWidth="119" measuredHeight="75">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
