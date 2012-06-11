@@ -4,11 +4,15 @@ import br.com.marcao.helpers.EncryptHelper;
 import br.com.marcao.pdv.dao.UsuarioDAO;
 import br.com.marcao.pdv.entity.UsuarioEntity;
 
-public class UsuarioBuzz {
+public class UsuarioBuzz extends MainBuzz<UsuarioEntity> {
 
     private UsuarioDAO usuDao;
 
-    public UsuarioDAO getUsuDao() {
+    UsuarioBuzz() {
+    }
+
+    @Override
+    protected UsuarioDAO getMainDao() {
         if (usuDao == null) {
             usuDao = new UsuarioDAO();
         }
@@ -18,7 +22,7 @@ public class UsuarioBuzz {
     public UsuarioEntity insertUsuario(UsuarioEntity usu) {
         String newSenha = EncryptHelper.convertToMd5(usu.getSenha());
         usu.setSenha(newSenha);
-        usu = getUsuDao().insertUsuario(usu);
+        usu = getMainDao().insertUsuario(usu);
         return usu;
     }
 
@@ -33,7 +37,7 @@ public class UsuarioBuzz {
 
         usu.setSenha(EncryptHelper.convertToMd5(usu.getSenha()));
 
-        usuResult = getUsuDao().findByLogin(usu);
+        usuResult = getMainDao().findByLogin(usu);
 
         if (usuResult != null) {
             return usu.getSenha().equals(usuResult.getSenha());

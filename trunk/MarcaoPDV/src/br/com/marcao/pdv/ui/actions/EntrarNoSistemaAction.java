@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import br.com.marcao.pdv.entity.UsuarioEntity;
 import br.com.marcao.pdv.ui.MarcaoPDVMainWindow;
 import br.com.marcao.pdv.ui.MarcaoPDVSessionVariables;
+import br.com.marcao.ui.helpers.SwingHelper;
 
 /**
  * Efetuas as opeações necessárias para entrar nbo sistema, autenticando o usuário, e iniciando a janela principal.
@@ -38,13 +39,17 @@ public class EntrarNoSistemaAction extends MainAbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        UsuarioEntity usu = new UsuarioEntity(usuario.getText(), senha.getText());
-        
-        if (getUsuarioBuzz().autenticaUsuario(usu)) {
-            MarcaoPDVSessionVariables.usuarioLogado = usu;
-            janelaLogin.setVisible(false);
-            janelaLogin.dispose();
-            new MarcaoPDVMainWindow().setVisible(true);
+        try {
+            UsuarioEntity usu = new UsuarioEntity(usuario.getText(), senha.getText());
+            
+            if (getUsuarioBuzz().autenticaUsuario(usu)) {
+                MarcaoPDVSessionVariables.usuarioLogado = usu;
+                janelaLogin.setVisible(false);
+                janelaLogin.dispose();
+                new MarcaoPDVMainWindow().setVisible(true);
+            }
+        } catch (Exception ex) {
+            SwingHelper.showErrorMessage("Erro no login:" + ex.getMessage());
         }
     }
 }

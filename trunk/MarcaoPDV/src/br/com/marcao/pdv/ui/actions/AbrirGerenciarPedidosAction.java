@@ -2,16 +2,17 @@ package br.com.marcao.pdv.ui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JDesktopPane;
 
 import br.com.marcao.pdv.ui.GerenciarPedidosWindow;
+import br.com.marcao.ui.helpers.SwingHelper;
 
-public class AbrirGerenciarPedidosAction extends AbstractAction {
+public class AbrirGerenciarPedidosAction extends MainAbstractAction {
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+
     private JDesktopPane pane;
 
     public AbrirGerenciarPedidosAction(JDesktopPane pane) {
@@ -22,7 +23,12 @@ public class AbrirGerenciarPedidosAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        GerenciarPedidosWindow.getInstance().setVisible(true);
-        pane.add(GerenciarPedidosWindow.getInstance());
+        try {
+            GerenciarPedidosWindow.getInstance().setVisible(true);
+            pane.add(GerenciarPedidosWindow.getInstance());
+        } catch (Exception ex) {
+            SwingHelper.showErrorMessage("N‹o foi poss’vel abrir a janela de pedidos.");
+            ex.printStackTrace();
+        }
     }
 }
