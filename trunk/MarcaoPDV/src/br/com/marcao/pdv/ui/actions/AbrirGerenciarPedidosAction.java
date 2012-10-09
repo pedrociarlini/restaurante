@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JDesktopPane;
 
+import pedrociarlini.reuse.ui.helpers.SwingHelper;
 import br.com.marcao.pdv.ui.GerenciarPedidosWindow;
-import br.com.marcao.ui.helpers.SwingHelper;
 
 public class AbrirGerenciarPedidosAction extends MainAbstractAction {
     /**

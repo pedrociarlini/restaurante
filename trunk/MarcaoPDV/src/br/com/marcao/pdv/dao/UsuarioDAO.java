@@ -2,6 +2,7 @@ package br.com.marcao.pdv.dao;
 
 import javax.persistence.Query;
 
+import pedrociarlini.reuse.db.MainDAO;
 import br.com.marcao.pdv.entity.UsuarioEntity;
 
 public class UsuarioDAO extends MainDAO {

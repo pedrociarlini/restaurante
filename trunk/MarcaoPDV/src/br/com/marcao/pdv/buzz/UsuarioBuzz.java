@@ -1,6 +1,7 @@
 package br.com.marcao.pdv.buzz;
 
-import br.com.marcao.helpers.EncryptHelper;
+import pedrociarlini.reuse.buzz.MainBuzz;
+import pedrociarlini.reuse.security.helpers.EncryptHelper;
 import br.com.marcao.pdv.dao.UsuarioDAO;
 import br.com.marcao.pdv.entity.UsuarioEntity;
 
@@ -8,7 +9,8 @@ public class UsuarioBuzz extends MainBuzz<UsuarioEntity> {
 
     private UsuarioDAO usuDao;
 
-    UsuarioBuzz() {
+    UsuarioBuzz(Class<UsuarioEntity> classe) {
+        super(classe);
     }
 
     @Override

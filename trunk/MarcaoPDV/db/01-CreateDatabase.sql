@@ -17,7 +17,8 @@ create table MP_LOCAL_MESA (
 create table MP_MESA (
 	ID_MESA integer primary key NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	NM_MESA varchar(30) not null,
-	ID_LOCAL_MESA integer
+	ID_LOCAL_MESA integer,
+	FL_CRACHA 
 );
 
 alter table MP_MESA add constraint FK_MESA_LOCAL_MESA Foreign Key (ID_LOCAL_MESA)

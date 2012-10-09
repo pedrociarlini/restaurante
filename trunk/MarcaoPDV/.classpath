@@ -13,5 +13,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Log4J"/>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/Derby Embedded JDBC Driver 10.8"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pedrociarlini.reuse"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

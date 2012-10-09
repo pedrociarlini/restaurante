@@ -1,5 +1,6 @@
 package br.com.marcao.pdv.ui.components;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,6 +18,8 @@ public class MesaLabel extends JLabel implements MouseListener {
         setHorizontalTextPosition(JLabel.CENTER);
         setVerticalTextPosition(JLabel.BOTTOM);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setOpaque(true);
+        setBackground(Color.WHITE);
         setName("MESA: " + mesa.getIdMesa());
     }
 

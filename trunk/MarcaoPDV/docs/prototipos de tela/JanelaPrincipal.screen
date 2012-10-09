@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" x="8" y="8" width="700" height="500" text="MarcaoPDV :: v0.1.0beta" measuredWidth="700" measuredHeight="500"/>
+  <widgets xsi:type="model:Menu" id="2" x="8" y="27" width="700" text="&amp;Caixa,&amp;Mesa,&amp;Estoque,&amp;Administração,A&amp;juda" measuredWidth="700" measuredHeight="27">
+    <items x="5" y="0" width="43" height="27" text="&amp;Caixa"/>
+    <items x="48" y="0" width="40" height="27" text="&amp;Mesa"/>
+    <items x="88" y="0" width="57" height="27" text="&amp;Estoque"/>
+    <items x="145" y="0" width="94" height="27" text="&amp;Administração"/>
+    <items x="239" y="0" width="44" height="27" text="A&amp;juda"/>
+  </widgets>
+  <widgets xsi:type="model:Popup" id="3" x="18" y="53" width="175" text="&amp;Abrir Caixa..., Ctrl+A&#xA;~Fe&amp;char Caixa...~, Ctrl+C&#xA;" measuredWidth="175" measuredHeight="50">
+    <items x="0" y="2" width="175" height="23" text="&amp;Abrir Caixa..., Ctrl+A"/>
+    <items x="0" y="25" width="175" height="23" text="~Fe&amp;char Caixa...~, Ctrl+C"/>
+  </widgets>
+  <widgets xsi:type="model:Popup" id="4" x="200" y="47" text="&amp;Gerenciar Pedidos, Ctrl+shift+P&#xA;---&#xA;Cadastro de &amp;Mesas/Crachá..." measuredWidth="248" measuredHeight="61">
+    <items x="0" y="2" width="248" height="23" text="&amp;Gerenciar Pedidos, Ctrl+shift+P"/>
+    <items x="0" y="25" width="248" height="11" text="---"/>
+    <items x="0" y="36" width="248" height="23" text="Cadastro de &amp;Mesas/Crachá..."/>
+  </widgets>
+  <widgets xsi:type="model:Popup" id="6" x="192" y="184" text="&amp;Gerenciar Estoque...&#xA;---&#xA;Cadastro de &amp;Produto...&#xA;~&amp;Custo do produto...~" measuredWidth="161" measuredHeight="84">
+    <items x="0" y="2" width="161" height="23" text="&amp;Gerenciar Estoque..."/>
+    <items x="0" y="25" width="161" height="11" text="---"/>
+    <items x="0" y="36" width="161" height="23" text="Cadastro de &amp;Produto..."/>
+    <items x="0" y="59" width="161" height="23" text="~&amp;Custo do produto...~"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

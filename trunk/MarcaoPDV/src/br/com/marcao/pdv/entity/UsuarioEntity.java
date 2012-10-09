@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import pedrociarlini.reuse.entity.IEntity;
+
 /**
  * Entity implementation class for Entity: UsuarioEntity
  * 
@@ -16,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SEG_USUARIO")
 @NamedQuery(name = "findUsuarioByLogin", query = "select u from UsuarioEntity u where u.login = :login" )
-public class UsuarioEntity implements Serializable {
+public class UsuarioEntity implements Serializable, IEntity {
 
     private static final long serialVersionUID = 1L;
 

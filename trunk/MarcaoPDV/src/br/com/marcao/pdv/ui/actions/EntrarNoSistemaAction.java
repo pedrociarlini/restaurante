@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import pedrociarlini.reuse.ui.helpers.SwingHelper;
 import br.com.marcao.pdv.entity.UsuarioEntity;
 import br.com.marcao.pdv.ui.MarcaoPDVMainWindow;
 import br.com.marcao.pdv.ui.MarcaoPDVSessionVariables;
-import br.com.marcao.ui.helpers.SwingHelper;
 
 /**
  * Efetuas as opeações necessárias para entrar nbo sistema, autenticando o usuário, e iniciando a janela principal.
@@ -46,10 +46,13 @@ public class EntrarNoSistemaAction extends MainAbstractAction {
                 MarcaoPDVSessionVariables.usuarioLogado = usu;
                 janelaLogin.setVisible(false);
                 janelaLogin.dispose();
-                new MarcaoPDVMainWindow().setVisible(true);
+                MarcaoPDVMainWindow janela = new MarcaoPDVMainWindow();
+                janela.setVisible(true);
+                janela.invalidate();
             }
         } catch (Exception ex) {
             SwingHelper.showErrorMessage("Erro no login:" + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

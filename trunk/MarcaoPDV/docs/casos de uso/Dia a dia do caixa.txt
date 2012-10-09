@@ -1,0 +1,10 @@
+Dia a Dia do Caixa
+------------------
+
+- O usuário escolhe Abrir o caixa
+- O sistema valida se tem algum caixa aberto
+  - Se tem
+    - O sistema diz que não pode abrir outro caixa simultaneamente
+- Se não
+  - O sistema pede a confirmação da Data de abertura
+  - O usuário confirma a abertura

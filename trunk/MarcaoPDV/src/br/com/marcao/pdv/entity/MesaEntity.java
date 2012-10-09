@@ -1,7 +1,17 @@
 package br.com.marcao.pdv.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import pedrociarlini.reuse.entity.IEntity;
 
 /**
  * The persistent class for the MP_MESA database table.
@@ -9,7 +19,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "MP_MESA")
-public class MesaEntity implements Serializable {
+public class MesaEntity implements Serializable, IEntity {
     private static final long serialVersionUID = 1L;
 
     @Id

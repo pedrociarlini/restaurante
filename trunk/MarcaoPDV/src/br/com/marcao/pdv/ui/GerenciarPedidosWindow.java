@@ -22,11 +22,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import pedrociarlini.reuse.ui.helpers.SwingHelper;
 import br.com.marcao.pdv.buzz.BuzzFactory;
-import br.com.marcao.pdv.buzz.MainBuzz;
+import br.com.marcao.pdv.buzz.MesaBuzz;
 import br.com.marcao.pdv.entity.MesaEntity;
 import br.com.marcao.pdv.ui.components.MesaLabel;
-import br.com.marcao.ui.helpers.SwingHelper;
+import br.com.marcao.pdv.ui.helpers.ColorConstants;
 
 @SuppressWarnings("serial")
 public class GerenciarPedidosWindow extends JInternalFrame implements MouseListener {
@@ -35,7 +36,7 @@ public class GerenciarPedidosWindow extends JInternalFrame implements MouseListe
 
     private JTable tableMesasAbertas;
 
-    private MainBuzz<MesaEntity> mesaBuzz;
+    private MesaBuzz mesaBuzz;
 
     private JPanel panelMesas;
 
@@ -46,7 +47,7 @@ public class GerenciarPedidosWindow extends JInternalFrame implements MouseListe
         return instance;
     }
 
-    private MainBuzz<MesaEntity> getMesasBuzz() {
+    private MesaBuzz getMesasBuzz() {
         if (mesaBuzz == null) {
             mesaBuzz = BuzzFactory.getInstance().retrieveBuzzInstance(BuzzFactory.BUZZ_MESA);
         }
@@ -145,11 +146,13 @@ public class GerenciarPedidosWindow extends JInternalFrame implements MouseListe
     public void mouseClicked(MouseEvent ev) {
         if (ev.getSource() instanceof MesaLabel) {
             MesaLabel mesaLabel = (MesaLabel) ev.getSource();
-            mesaLabel.setForeground(Color.BLUE);
+            mesaLabel.setForeground(Color.WHITE);
+            mesaLabel.setBackground(ColorConstants.MESA_SELECIONADA);
 
             for (int i = 0; i < panelMesas.getComponentCount(); i++) {
                 if (mesaLabel != panelMesas.getComponent(i)) {
                     panelMesas.getComponent(i).setForeground(Color.BLACK);
+                    panelMesas.getComponent(i).setBackground(Color.WHITE);
                 }
             }
         }

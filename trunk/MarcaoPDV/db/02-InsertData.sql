@@ -1,5 +1,5 @@
 insert into SEG_USUARIO (ID_USUARIO, NM_LOGIN, NM_USUARIO, TX_SENHA)
-values (default, 'adm', 'Administrador', '827ccb0eea8a706c4c34a16891f84e7b')
+values (default, 'adm', 'Administrador', '827ccb0eea8a706c4c34a16891f84e7b');
 
 insert into MP_LOCAL_MESA values (default, 'Andar de baixo'); 
 insert into MP_LOCAL_MESA values (default, 'Andar do meio');

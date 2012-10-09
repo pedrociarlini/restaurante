@@ -4,6 +4,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="MarcaoPDV" transaction-type="RESOURCE_LOCAL">
 		<properties>
+			<!-- PRODUCAO -->
+			<!-- 
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:derby:./bd/MarcaoPDV_derby.db;create=true" />
+ 			-->
+			<!-- Desenvolvimento -->
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:derby:/Users/pedrociarlini/Informatica/projetos/MarcaoPDV/db/MarcaoPDV_derby.db;create=true" />
 			<property name="javax.persistence.jdbc.user" value="" />
