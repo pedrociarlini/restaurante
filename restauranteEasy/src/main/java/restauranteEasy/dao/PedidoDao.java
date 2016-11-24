@@ -33,7 +33,7 @@ public class PedidoDao extends AbstractDao {
 
 	public List<Pedido> consultarPedidos(List<StatusPedido> status) {
 		List<Pedido> result = new ArrayList<Pedido>();
-		TypedQuery<Pedido> query = em.createQuery("select p from Pedido p where p.status in (:status)", Pedido.class);
+		TypedQuery<Pedido> query = em.createQuery("select p from Pedido p where p.statusPedido in (:status)", Pedido.class);
 		query.setParameter("status", status);
 		result = query.getResultList();
 		return result;

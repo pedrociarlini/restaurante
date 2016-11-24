@@ -3,11 +3,11 @@ package restauranteEasy.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "pedido")
 public class Pedido extends MainEntity {
 
 	/**
@@ -20,6 +20,7 @@ public class Pedido extends MainEntity {
 
 	private String descricaoPedido;
 
+	@Enumerated(EnumType.STRING)
 	private StatusPedido statusPedido;
 
 	private Date dataPedido;
