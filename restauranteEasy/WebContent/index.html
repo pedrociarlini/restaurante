@@ -42,7 +42,7 @@
 			<div class="col-sm-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h1>{{mesas[mesaCorrente].nome}}</h1>
+						<h2>{{mesas[mesaCorrente].nome}}</h2>
 						<button class="btn btn-default btn-lg direita">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
@@ -57,13 +57,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="pedido in mesas[mesaCorrente].pedidos" v-if="pedido.status != 'entregue'">
+								<tr v-for="pedido in mesas[mesaCorrente].pedidos"
+									v-if="pedido.status != 'entregue'">
 									<td>{{pedido.descricao}}</td>
 									<td>{{pedido.qtde}}</td>
-									<td width="5%">
-										<span v-if="pedido.status == 'aguardando'" class="glyphicon glyphicon-time alert-warning"></span>
-										<span v-if="pedido.status == 'recebido'" class="glyphicon glyphicon-check alert-success"></span>
-									</td>
+									<td width="5%"><span v-if="pedido.status == 'aguardando'"
+										class="glyphicon glyphicon-time alert-warning"></span> <span
+										v-if="pedido.status == 'recebido'"
+										class="glyphicon glyphicon-check alert-success"></span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -74,6 +75,5 @@
 	</div>
 	<script src="js/vue.js"></script>
 	<script src="js/main.js"></script>
-
 </body>
 </html>

@@ -33,3 +33,8 @@ var restauranteApp = new Vue({
     }
   }
 });
+
+adicionarPedido = function(mesa, descricao, qtde) {
+	var pedido = {'descricao' : descricao, 'qtde' : qtde, status : 'aguardando'};
+	restauranteApp.mesas[mesa].pedidos.add(pedido);
+}
