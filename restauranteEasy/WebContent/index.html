@@ -14,7 +14,7 @@
 <title>RestauranteEasy :: Pedidos</title>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" id="restauranteApp">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="dropdown">
@@ -24,15 +24,16 @@
 						<span class="glyphicon glyphicon-menu-hamburger"></span>
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="opcoesGarcom">
-						<li class="dropdown-header">Mesa 25</li>
+						<li class="dropdown-header">{{mesas[mesaCorrente].nome}}</li>
 						<li><a href="#">Fornecer senha <span
 								class="glyphicon glyphicon-qrcode"></span></a></li>
 						<li><a href="#">Fechar conta</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">Abrir mesa</a></li>
 						<li role="separator" class="divider"></li>
-						<li><a href="#">Mesa 15</a></li>
-						<li><a href="#">Mesa 17</a></li>
+						<li v-for="mesa in mesas"><a href="#"
+							:onclick="'restauranteApp.mesaCorrente = \'' + mesa.codigo + '\''"
+							v-if="mesa.nome != mesas[mesaCorrente].nome">{{mesa.nome}}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -41,7 +42,7 @@
 			<div class="col-sm-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h1>Mesa 25</h1>
+						<h1>{{mesas[mesaCorrente].nome}}</h1>
 						<button class="btn btn-default btn-lg direita">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
@@ -56,26 +57,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								
-								<tr>
-									<td>Cerveja Skol</td>
-									<td>2</td>
-									<td width="5%"><span class="glyphicon glyphicon-time alert-warning"></span></td>
-								</tr>
-								<tr>
-									<td>Aperitivozinho lá</td>
-									<td>2</td>
-									<td><span class="glyphicon glyphicon-time alert-warning"></span></td>
-								</tr>
-								<tr>
-									<td>Comida apimentada</td>
-									<td>1</td>
-									<td><span class="glyphicon glyphicon-check alert-success"></span></td>
-								</tr>
-								<tr>
-									<td>Cerveja gelada</td>
-									<td>1</td>
-									<td><span class="glyphicon glyphicon-check alert-success"></span></td>
+								<tr v-for="pedido in mesas[mesaCorrente].pedidos" v-if="pedido.status != 'entregue'">
+									<td>{{pedido.descricao}}</td>
+									<td>{{pedido.qtde}}</td>
+									<td width="5%">
+										<span v-if="pedido.status == 'aguardando'" class="glyphicon glyphicon-time alert-warning"></span>
+										<span v-if="pedido.status == 'recebido'" class="glyphicon glyphicon-check alert-success"></span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -84,5 +72,8 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/main.js"></script>
+
 </body>
 </html>
