@@ -10,8 +10,8 @@
 		</provider>
 		<class>restauranteEasy.entity.Pedido</class>
 		<class>restauranteEasy.entity.Usuario</class>
-		<class>restauranteEasy.entity.MainEntity</class>
 		<class>restauranteEasy.entity.Mesa</class>
+		<class>restauranteEasy.entity.MainEntity</class>
 		<properties>
 			<property name="hibernate.ogm.datastore.provider"
 				value="org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider" />
